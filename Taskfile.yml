@@ -1,0 +1,25 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List all commands.
+    silent: true
+    cmds:
+    - task -l
+
+  init-pre-commit:
+    desc: Init pre-commit.
+    cmds:
+    - pre-commit install
+    - pre-commit install --hook-type commit-msg
+
+  lint:
+    desc: Check lint.
+    cmds:
+    - pre-commit run --all-files
+
+  test:
+    desc: Run tests.
+    cmds:
+    - pytest tests/
+    - mypy

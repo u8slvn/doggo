@@ -1,0 +1,82 @@
+[tool.poetry]
+name = "doggo"
+version = "0.1.0"
+description = ""
+authors = ["u8slvn <u8slvn@gmail.com>"]
+license = "LGPL-3.0"
+readme = "README.md"
+packages = [{include = "doggo", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pygame-ce = "^2.5.0"
+numpy = "^2.0.0"
+
+[tool.poetry.scripts]
+doggo = "doggo.__main__:run"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+pytest-mock = "^3.14.0"
+pytest-cov = "^5.0.0"
+mypy = "^1.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+files = "src"
+mypy_path = "src"
+namespace_packages = true
+show_error_codes = true
+ignore_missing_imports = true
+strict = true
+
+[tool.black]
+line_length = 88
+
+[tool.ruff]
+fix = true
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint]
+select = [
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "RUF", # ruff checks
+    "TID", # flake8-tidy-imports
+]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.isort]
+force-single-line = true
+lines-between-types = 1
+lines-after-imports = 2
+required-imports = [
+    "from __future__ import annotations",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "if TYPE_CHECKING:",
+    "pass",
+    "raise NotImplementedError",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src/"
+testpaths = ["tests"]
+addopts = [
+    "--import-mode=importlib",
+]
