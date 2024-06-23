@@ -3,13 +3,13 @@ from __future__ import annotations
 import random
 
 from dataclasses import dataclass
-from enum import IntEnum
+from enum import StrEnum
 from enum import auto
 from typing import Iterable
 
 
-class State(IntEnum):
-    IDLE = 0
+class StateID(StrEnum):
+    IDLE = auto()
     WALK = auto()
     SIT = auto()
     RUN = auto()
@@ -18,13 +18,13 @@ class State(IntEnum):
 
 @dataclass
 class StateConfig:
-    state: State
+    state: StateID
     text: str
-    transitions: dict[State, float]
+    transitions: dict[StateID, float]
     time_range: tuple[int, int]
 
     def __post_init__(self) -> None:
-        if not len(self.transitions) == len(State):
+        if not len(self.transitions) == len(StateID):
             raise ValueError(
                 f"The number of transitions of state {self.state.name} must be equal "
                 f"to the number of states"
@@ -40,11 +40,11 @@ class StateConfig:
 class Brain:
     def __init__(self, states: Iterable[StateConfig]) -> None:
         self._config = {config.state: config for config in states}
-        self.current_state = random.choice(list(State))
+        self.current_state = StateID(random.choice(list(StateID)))
 
-        if not set(self._config.keys()) == set(State):
+        if not set(self._config.keys()) == set(StateID):
             raise ValueError(
-                f"The states must be defined for all the states, missing: {set(State) - set(self._config.keys())}"
+                f"The states must be defined for all the states, missing: {set(StateID) - set(self._config.keys())}"
             )
 
     def is_doing(self) -> str:

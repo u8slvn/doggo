@@ -3,70 +3,70 @@ from __future__ import annotations
 from loguru import logger
 
 from doggo.brain import Brain
-from doggo.brain import State
 from doggo.brain import StateConfig
+from doggo.brain import StateID
 
 
 def run() -> None:
     brain = Brain(
         states=[
             StateConfig(
-                state=State.IDLE,
+                state=StateID.IDLE,
                 text="I'm just chilling",
                 transitions={
-                    State.IDLE: 0.2,
-                    State.WALK: 0.2,
-                    State.SIT: 0.2,
-                    State.RUN: 0.2,
-                    State.EAT: 0.2,
+                    StateID.IDLE: 0.2,
+                    StateID.WALK: 0.2,
+                    StateID.SIT: 0.2,
+                    StateID.RUN: 0.2,
+                    StateID.EAT: 0.2,
                 },
                 time_range=(1, 5),
             ),
             StateConfig(
-                state=State.WALK,
+                state=StateID.WALK,
                 text="I'm going for a walk",
                 transitions={
-                    State.IDLE: 0.2,
-                    State.WALK: 0.2,
-                    State.SIT: 0.2,
-                    State.RUN: 0.2,
-                    State.EAT: 0.2,
+                    StateID.IDLE: 0.2,
+                    StateID.WALK: 0.2,
+                    StateID.SIT: 0.2,
+                    StateID.RUN: 0.2,
+                    StateID.EAT: 0.2,
                 },
                 time_range=(1, 5),
             ),
             StateConfig(
-                state=State.SIT,
+                state=StateID.SIT,
                 text="I'm sitting",
                 transitions={
-                    State.IDLE: 0.2,
-                    State.WALK: 0.2,
-                    State.SIT: 0.2,
-                    State.RUN: 0.2,
-                    State.EAT: 0.2,
+                    StateID.IDLE: 0.2,
+                    StateID.WALK: 0.2,
+                    StateID.SIT: 0.2,
+                    StateID.RUN: 0.2,
+                    StateID.EAT: 0.2,
                 },
                 time_range=(1, 5),
             ),
             StateConfig(
-                state=State.RUN,
+                state=StateID.RUN,
                 text="I'm running",
                 transitions={
-                    State.IDLE: 0.2,
-                    State.WALK: 0.2,
-                    State.SIT: 0.2,
-                    State.RUN: 0.2,
-                    State.EAT: 0.2,
+                    StateID.IDLE: 0.2,
+                    StateID.WALK: 0.2,
+                    StateID.SIT: 0.2,
+                    StateID.RUN: 0.2,
+                    StateID.EAT: 0.2,
                 },
                 time_range=(1, 5),
             ),
             StateConfig(
-                state=State.EAT,
+                state=StateID.EAT,
                 text="I'm eating",
                 transitions={
-                    State.IDLE: 0.2,
-                    State.WALK: 0.2,
-                    State.SIT: 0.2,
-                    State.RUN: 0.2,
-                    State.EAT: 0.2,
+                    StateID.IDLE: 0.2,
+                    StateID.WALK: 0.2,
+                    StateID.SIT: 0.2,
+                    StateID.RUN: 0.2,
+                    StateID.EAT: 0.2,
                 },
                 time_range=(1, 5),
             ),

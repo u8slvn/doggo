@@ -3,8 +3,8 @@ from __future__ import annotations
 import pytest
 
 from doggo.brain import Brain
-from doggo.brain import State
 from doggo.brain import StateConfig
+from doggo.brain import StateID
 
 
 @pytest.mark.parametrize(
@@ -13,19 +13,19 @@ from doggo.brain import StateConfig
         (
             "The number of transitions of state (.+) must be equal to the number of states",
             {
-                State.IDLE: 0.2,
-                State.WALK: 0.2,
-                State.SIT: 0.2,
+                StateID.IDLE: 0.2,
+                StateID.WALK: 0.2,
+                StateID.SIT: 0.2,
             },
         ),
         (
             "The sum of the transition probabilities of state (.+) must be equal to 1",
             {
-                State.IDLE: 0.2,
-                State.WALK: 0.2,
-                State.SIT: 0.2,
-                State.RUN: 0.2,
-                State.EAT: 0.7,
+                StateID.IDLE: 0.2,
+                StateID.WALK: 0.2,
+                StateID.SIT: 0.2,
+                StateID.RUN: 0.2,
+                StateID.EAT: 0.7,
             },
         ),
     ],
@@ -33,7 +33,7 @@ from doggo.brain import StateConfig
 def test_state_config_cannot_be_built_with_invalid_transitions(error_msg, transitions):
     with pytest.raises(ValueError, match=error_msg):
         StateConfig(
-            state=State.IDLE,
+            state=StateID.IDLE,
             text="I'm just chilling",
             transitions=transitions,
             time_range=(1, 5),
@@ -47,14 +47,14 @@ def test_brain_must_be_configured_with_all_the_states():
         Brain(
             states=[
                 StateConfig(
-                    state=State.IDLE,
+                    state=StateID.IDLE,
                     text="I'm just chilling",
                     transitions={
-                        State.IDLE: 0.2,
-                        State.WALK: 0.2,
-                        State.SIT: 0.2,
-                        State.RUN: 0.2,
-                        State.EAT: 0.2,
+                        StateID.IDLE: 0.2,
+                        StateID.WALK: 0.2,
+                        StateID.SIT: 0.2,
+                        StateID.RUN: 0.2,
+                        StateID.EAT: 0.2,
                     },
                     time_range=(1, 5),
                 ),
