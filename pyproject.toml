@@ -11,6 +11,7 @@ packages = [{include = "doggo", from = "src"}]
 python = "^3.12"
 pygame-ce = "^2.5.0"
 numpy = "^2.0.0"
+loguru = "^0.7.2"
 
 [tool.poetry.scripts]
 doggo = "doggo.__main__:run"

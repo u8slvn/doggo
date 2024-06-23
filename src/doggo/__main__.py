@@ -1,12 +1,10 @@
 from __future__ import annotations
 
+from loguru import logger
+
 from doggo.brain import Brain
 from doggo.brain import State
 from doggo.brain import StateConfig
-from doggo.logger import get_logger
-
-
-logger = get_logger()
 
 
 def run() -> None:
