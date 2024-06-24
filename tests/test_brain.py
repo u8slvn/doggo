@@ -18,4 +18,4 @@ def test_brain_initializes_correctly():
     assert brain.is_doing() == brain.current_state.text
     assert str(brain) == f"Brain({brain.current_state.text}...)"
     assert brain.current_state.name == brain.current_state.id.name.title()
-    assert brain.current_state.time in full_range(brain.current_state.time_range)
+    assert brain.state_time in full_range(brain.current_state.time_range)

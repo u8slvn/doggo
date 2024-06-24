@@ -39,6 +39,7 @@ class Brain:
         )
 
         self.current_state = self._states[random.choice(list(StateID))]
+        self.state_time = self.current_state.get_remaining_time()
 
     def is_doing(self) -> str:
         """Return a human-friendly representation of what the brain is doing based on
@@ -48,14 +49,14 @@ class Brain:
 
     def update(self) -> None:
         """Update the current brain state."""
-        self.current_state.update()
+        self.state_time -= 1
 
-        if self.current_state.is_done():
+        if self.state_time == 0:
             next_state_id = np.random.choice(
                 list(StateID), p=list(self.current_state.transitions.values())
             )
             self.current_state = self._states[next_state_id]
-            self.current_state.wind_up()
+            self.state_time = self.current_state.get_remaining_time()
 
     def __repr__(self) -> str:
         """String representation of the brain."""
@@ -70,7 +71,6 @@ class State:
     text: str
     transitions: dict[StateID, float]
     time_range: tuple[int, int]
-    time: int = 0
 
     def __post_init__(self) -> None:
         assert len(self.transitions) == len(StateID), (
@@ -82,23 +82,13 @@ class State:
             f"must be equal to 1"
         )
 
-        self.wind_up()
-
     @property
     def name(self) -> str:
         """Return the stylized name of the state."""
         return self.id.name.title()
 
-    def wind_up(self) -> None:
+    def get_remaining_time(self) -> int:
         """Wind up the state by setting the time to a random value within the time
         range.
         """
-        self.time = random.randint(*self.time_range)
-
-    def is_done(self) -> bool:
-        """Check if the state is done."""
-        return self.time == 0
-
-    def update(self) -> None:
-        """Update the state by decreasing the time left."""
-        self.time -= 1
+        return random.randint(*self.time_range)
