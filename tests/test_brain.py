@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from doggo.brain import Brain
+from doggo.brain import Direction
 from doggo.brain import State
 from doggo.brain import StateID
 from doggo.config import STATES
@@ -8,6 +9,25 @@ from doggo.config import STATES
 
 def full_range(range_: tuple[int, int]) -> list[int]:
     return list(range(range_[0], range_[1] + 1))
+
+
+def test_get_random_state_id():
+    state_id = StateID.random()
+
+    assert state_id in StateID
+
+
+def test_get_random_state_id_with_probs():
+    probs = [0.1, 0.1, 0.1, 0.1, 0.6]
+    state_id = StateID.random_with_probs(probs)
+
+    assert state_id in StateID
+
+
+def test_get_random_direction():
+    direction = Direction.random()
+
+    assert direction in Direction
 
 
 def test_brain_initializes_correctly():

@@ -18,6 +18,28 @@ class StateID(IntEnum):
     RUN = auto()
     EAT = auto()
 
+    @staticmethod
+    def random() -> StateID:
+        """Return a random state."""
+        return StateID(random.choice(list(StateID)))
+
+    @staticmethod
+    def random_with_probs(p: list[float]) -> StateID:
+        """Return a random state based on the given probabilities."""
+        return StateID(np.random.choice(list(StateID), p=p))
+
+
+class Direction(IntEnum):
+    """The possible directions of the doggo."""
+
+    LEFT = 0
+    RIGHT = auto()
+
+    @staticmethod
+    def random() -> Direction:
+        """Return a random direction."""
+        return Direction(random.getrandbits(1))
+
 
 class Brain:
     """The brain of the doggo.
@@ -29,8 +51,8 @@ class Brain:
     """
 
     def __init__(self, states: list[State]) -> None:
-        self._states = states
-        self._states.sort(key=lambda state: state.id)
+        states.sort(key=lambda state: state.id)
+        self._states = tuple(states)
 
         registered_states = {state.id for state in self._states}
         assert registered_states == set(StateID), (
@@ -38,8 +60,9 @@ class Brain:
             f"{set(StateID) - registered_states}"
         )
 
-        self.current_state = self._states[random.choice(list(StateID))]
+        self.current_state = self._states[StateID.random()]
         self.state_time = self.current_state.get_remaining_time()
+        self.direction = Direction.random()
 
     def is_doing(self) -> str:
         """Return a human-friendly representation of what the brain is doing based on
@@ -52,11 +75,12 @@ class Brain:
         self.state_time -= 1
 
         if self.state_time == 0:
-            next_state_id = np.random.choice(
-                list(StateID), p=list(self.current_state.transitions.values())
-            )
+            transition_probs = list(self.current_state.transitions.values())
+            next_state_id = StateID.random_with_probs(transition_probs)
+
             self.current_state = self._states[next_state_id]
             self.state_time = self.current_state.get_remaining_time()
+            self.direction = Direction.random()
 
     def __repr__(self) -> str:
         """String representation of the brain."""
