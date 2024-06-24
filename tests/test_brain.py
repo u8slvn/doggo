@@ -3,16 +3,15 @@ from __future__ import annotations
 from doggo.brain import Brain
 from doggo.brain import State
 from doggo.brain import StateID
-
-from tests.conftest import STATES_TEST
+from doggo.config import STATES
 
 
 def full_range(range_: tuple[int, int]) -> list[int]:
     return list(range(range_[0], range_[1] + 1))
 
 
-def test_brain_start_with_random_state():
-    brain = Brain(states=STATES_TEST)
+def test_brain_initializes_correctly():
+    brain = Brain(states=STATES)
 
     assert isinstance(brain.current_state, State)
     assert brain.current_state.id in StateID

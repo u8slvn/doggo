@@ -3,15 +3,14 @@ from __future__ import annotations
 import random
 
 from dataclasses import dataclass
-from enum import StrEnum
+from enum import IntEnum
 from enum import auto
-from typing import Iterable
 
 import numpy as np
 
 
-class StateID(StrEnum):
-    IDLE = auto()
+class StateID(IntEnum):
+    IDLE = 0
     WALK = auto()
     SIT = auto()
     RUN = auto()
@@ -19,16 +18,17 @@ class StateID(StrEnum):
 
 
 class Brain:
-    def __init__(self, states: Iterable[State]) -> None:
-        self._states = {states.id: states for states in states}
+    def __init__(self, states: list[State]) -> None:
+        self._states = states
+        self._states.sort(key=lambda state: state.id)
 
-        registered_states = set(self._states.keys())
+        registered_states = {state.id for state in self._states}
         assert registered_states == set(StateID), (
             f"The states must be defined for all the states, missing: "
             f"{set(StateID) - registered_states}"
         )
 
-        self.current_state = self._states[StateID(random.choice(list(StateID)))]
+        self.current_state = self._states[random.choice(list(StateID))]
 
     def is_doing(self) -> str:
         return self.current_state.text
