@@ -3,11 +3,12 @@ from __future__ import annotations
 import random
 
 from abc import ABC
-from abc import abstractmethod
 from enum import StrEnum
 from enum import auto
 from typing import ClassVar
 from typing import Type
+
+import numpy as np
 
 
 STATES: dict[StateID, Type[State]] = {}
@@ -25,14 +26,13 @@ class Brain:
     _states: ClassVar[dict[str, Type[State]]] = {}
 
     def __init__(self) -> None:
-        self.current_state = self._states[random.choice(list(StateID))]()
-
         registered_states = set(self._states.keys())
-
         assert registered_states == set(StateID), (
             f"The states must be defined for all the states, missing: "
             f"{set(StateID) - registered_states}"
         )
+
+        self.current_state = self._states[random.choice(list(StateID))]()
 
     @classmethod
     def register_state(cls, state: Type[State]) -> None:
@@ -40,6 +40,15 @@ class Brain:
 
     def is_doing(self) -> str:
         return self.current_state.text
+
+    def update(self) -> None:
+        if self.current_state.is_done():
+            next_state_id = np.random.choice(
+                list(StateID), p=list(self.current_state.transitions.values())
+            )
+            self.current_state = self._states[next_state_id]()
+
+        self.current_state.update()
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.is_doing()}...)"
@@ -59,19 +68,22 @@ class State(ABC):
             f"The number of transitions of state {self.name} must be equal "
             f"to the number of states"
         )
-
         assert sum(self.transitions.values()) == 1, (
             f"The sum of the transition probabilities of state {self.name} "
             f"must be equal to 1"
         )
 
+        self.time = random.randint(*self.time_range)
+
     @property
     def name(self) -> str:
         return self.id.name
 
-    @abstractmethod
+    def is_done(self) -> bool:
+        return self.time == 0
+
     def update(self) -> None:
-        raise NotImplementedError
+        self.time -= 1
 
 
 class Idle(State):
@@ -86,9 +98,6 @@ class Idle(State):
     }
     time_range = (1, 5)
 
-    def update(self) -> None:
-        pass
-
 
 class Walk(State):
     id = StateID.WALK
@@ -101,9 +110,6 @@ class Walk(State):
         StateID.EAT: 0.2,
     }
     time_range = (1, 5)
-
-    def update(self) -> None:
-        pass
 
 
 class Sit(State):
@@ -118,9 +124,6 @@ class Sit(State):
     }
     time_range = (1, 5)
 
-    def update(self) -> None:
-        pass
-
 
 class Run(State):
     id = StateID.RUN
@@ -134,9 +137,6 @@ class Run(State):
     }
     time_range = (1, 5)
 
-    def update(self) -> None:
-        pass
-
 
 class Eat(State):
     id = StateID.EAT
@@ -149,6 +149,3 @@ class Eat(State):
         StateID.EAT: 0.2,
     }
     time_range = (1, 5)
-
-    def update(self) -> None:
-        pass
