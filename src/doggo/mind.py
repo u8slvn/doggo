@@ -1,3 +1,6 @@
+# Mind module contains the states and transitions of the doggo's brain.
+# This is basically the configuration of the doggo's brain.
+
 from __future__ import annotations
 
 from doggo.brain import State

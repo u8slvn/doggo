@@ -4,7 +4,9 @@ from doggo.brain import Brain
 from doggo.brain import Direction
 from doggo.brain import State
 from doggo.brain import StateID
-from doggo.config import STATES
+from doggo.mind import STATES
+
+from tests.conftest import STATES_TEST
 
 
 def full_range(range_: tuple[int, int]) -> list[int]:
@@ -38,4 +40,26 @@ def test_brain_initializes_correctly():
     assert brain.is_doing() == brain.current_state.text
     assert str(brain) == f"Brain({brain.current_state.text}...)"
     assert brain.current_state.name == brain.current_state.id.name.title()
-    assert brain.state_time in full_range(brain.current_state.time_range)
+    assert brain.current_state_time in full_range(brain.current_state.time_range)
+
+
+def test_change_state_of_brain():
+    brain = Brain(states=STATES_TEST, default_state_id=StateID.IDLE)
+    brain.current_state_time = 0
+
+    brain.change_state(state_id=StateID.WALK)
+
+    assert brain.current_state.id != StateID.IDLE
+    assert brain.current_state_time in full_range(brain.current_state.time_range)
+    assert brain.direction in Direction
+
+
+def test_update_brain_changes_state_when_time_is_up():
+    brain = Brain(states=STATES_TEST, default_state_id=StateID.IDLE)
+    brain.current_state_time = 1
+
+    brain.update()
+
+    assert brain.current_state.id != StateID.IDLE
+    assert brain.current_state_time in full_range(brain.current_state.time_range)
+    assert brain.direction in Direction

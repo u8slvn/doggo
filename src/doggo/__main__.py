@@ -4,18 +4,18 @@ from time import sleep
 
 from loguru import logger
 
+from doggo import mind
 from doggo.brain import Brain
-from doggo.config import STATES
 
 
 def run() -> None:
-    brain = Brain(states=STATES)
+    brain = Brain(states=mind.STATES)
 
     logger.info("Starting brain...")
     while True:
         brain.update()
         logger.info(
-            f"Brain: {brain.is_doing()} - Direction: {brain.direction.name} - {brain.state_time} seconds left..."
+            f"Brain: {brain.is_doing()} - Direction: {brain.direction.name} - {brain.current_state_time} seconds left..."
         )
         sleep(1)
 
