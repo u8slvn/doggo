@@ -5,10 +5,11 @@ from time import sleep
 from loguru import logger
 
 from doggo.brain import Brain
+from doggo.config import STATES
 
 
 def run() -> None:
-    brain = Brain()
+    brain = Brain(states=STATES)
 
     logger.info("Starting brain...")
     while True:
