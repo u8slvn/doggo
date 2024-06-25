@@ -1,23 +1,15 @@
 from __future__ import annotations
 
-from time import sleep
-
-from loguru import logger
-
 from doggo import mind
 from doggo.brain import Brain
+from doggo.control import Control
 
 
 def run() -> None:
-    brain = Brain(states=mind.STATES)
+    _ = Brain(states=mind.STATES)
 
-    logger.info("Starting brain...")
-    while True:
-        brain.update()
-        logger.info(
-            f"Brain: {brain.is_doing()} - Direction: {brain.current_state.direction.name} - {brain.current_state.time} seconds left..."
-        )
-        sleep(1)
+    control = Control(width=80, height=24)
+    control.start()
 
 
 if __name__ == "__main__":
