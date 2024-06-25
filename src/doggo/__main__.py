@@ -15,7 +15,7 @@ def run() -> None:
     while True:
         brain.update()
         logger.info(
-            f"Brain: {brain.is_doing()} - Direction: {brain.direction.name} - {brain.current_state_time} seconds left..."
+            f"Brain: {brain.is_doing()} - Direction: {brain.current_state.direction.name} - {brain.current_state.time} seconds left..."
         )
         sleep(1)
 

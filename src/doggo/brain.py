@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 
 from dataclasses import dataclass
+from dataclasses import field
 from enum import IntEnum
 from enum import auto
 
@@ -65,28 +66,21 @@ class Brain:
         initial_state_id = (
             StateID.random() if default_state_id is None else default_state_id
         )
-        self.current_state = self._states[initial_state_id]
-        self.current_state_time = self.current_state.get_state_time()
-        self.direction = Direction.random()
+        self.current_state = self._states[initial_state_id]()
 
     def is_doing(self) -> str:
         """Return a human-friendly representation of what the brain is doing."""
         return self.current_state.text
 
     def change_state(self, state_id: StateID) -> None:
-        """Change the current state of the brain.
-
-        It also sets a new random lifetime for the new state and a random direction.
-        """
-        self.current_state = self._states[state_id]
-        self.current_state_time = self.current_state.get_state_time()
-        self.direction = Direction.random()
+        """Change the current state of the brain."""
+        self.current_state = self._states[state_id]()
 
     def update(self) -> None:
         """Update the current brain state."""
-        self.current_state_time -= 1
+        self.current_state.tick()
 
-        if self.current_state_time <= 0:
+        if self.current_state.is_done():
             self.change_state(state_id=self.current_state.get_next_state_id())
 
     def __repr__(self) -> str:
@@ -102,6 +96,8 @@ class State:
     text: str
     transitions: dict[StateID, float]
     time_range: tuple[int, int]
+    time: int = 0
+    direction: Direction = field(default_factory=Direction.random)
 
     def __post_init__(self) -> None:
         assert len(self.transitions) == len(StateID), (
@@ -113,19 +109,36 @@ class State:
             f"must be equal to 1"
         )
 
+        self.wind_up()
+
+    def __call__(self) -> State:
+        """Renew the state for a new iteration."""
+        self.wind_up()
+        self.direction = Direction.random()
+
+        return self
+
     @property
     def name(self) -> str:
         """Return the stylized name of the state."""
         return self.id.name.title()
 
-    def get_state_time(self) -> int:
-        """Return a new random lifetime for the state."""
-        return random.randint(*self.time_range)
+    def tick(self) -> None:
+        """Update the time of the state."""
+        self.time -= 1
+
+    def is_done(self) -> bool:
+        """Return whether the state is done or not."""
+        return self.time <= 0
+
+    def wind_up(self) -> None:
+        """Wind up the state for a new iteration."""
+        self.time = random.randint(*self.time_range)
 
     def get_next_state_id(self) -> StateID:
         """Return the next state based on the transition probabilities."""
-        # We want to be sure that the order of the transitions is the same as one of
-        # the StateID.
+        # We want to be sure that the order of the transitions is the same as the one
+        # of the StateID.
         transition_probs = [self.transitions[state_id] for state_id in StateID]
 
         return StateID.random_with_probs(transition_probs)
