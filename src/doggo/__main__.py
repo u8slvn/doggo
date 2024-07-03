@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from doggo import mind
 from doggo.brain import Brain
-from doggo.control import Control
+from doggo.world import World
 
 
 def run() -> None:
     _ = Brain(states=mind.STATES)
 
-    control = Control(width=80, height=24)
+    control = World(width=80, height=24)
     control.start()
 
 
