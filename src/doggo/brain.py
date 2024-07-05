@@ -22,12 +22,12 @@ class StateID(IntEnum):
     @classmethod
     def random(cls) -> StateID:
         """Return a random state."""
-        return cls(random.choice(list(StateID)))
+        return random.choice(list(cls))
 
     @classmethod
     def random_with_probs(cls, p: list[float]) -> StateID:
         """Return a random state based on the given probabilities."""
-        return cls(np.random.choice(list(StateID), p=p))
+        return cls(np.random.choice(list(cls), p=p))
 
 
 class Direction(IntEnum):
