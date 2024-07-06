@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import pygame as pg
+import pytest
+
 from doggo.brain import State
 from doggo.brain import StateID
 
@@ -66,3 +69,15 @@ STATES_TEST = [
         time_range=(1, 5),
     ),
 ]
+
+
+@pytest.fixture(scope="session", autouse=True)
+def pygame():
+    """Start and stop pygame instance for all tests."""
+
+    pg.init()
+    pg.display.set_mode((800, 600))
+
+    yield
+
+    pg.quit()
