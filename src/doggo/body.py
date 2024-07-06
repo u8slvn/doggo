@@ -1,42 +1,17 @@
 from __future__ import annotations
 
-import random
-
-from enum import IntEnum
-from enum import auto
 from typing import TYPE_CHECKING
 
 import pygame as pg
 
 from doggo import ASSETS_PATH
-from doggo.brain import Direction
-from doggo.brain import StateID
+from doggo.dna import Fur
+from doggo.mind import Direction
+from doggo.mind import StateID
 
 
 if TYPE_CHECKING:
     from pathlib import Path
-
-
-class Fur(IntEnum):
-    """The possible fur colors of the doggo."""
-
-    DARK_BROWN = 0
-    LIGHT_BROWN = auto()
-    GREY = auto()
-    BLUE = auto()
-    RED_BROWN = auto()
-    WHITE = auto()
-    WHITE_WITH_BROWN_SPOTS = auto()
-    DARK_BROWN_WITH_GREY_SPOTS = auto()
-    WHITE_WITH_GREY_SPOTS = auto()
-    BLUE_WITH_BROWN_SPOTS = auto()
-    LIGHT_BROWN_WITH_WHITE_SPOTS = auto()
-    ORANGE = auto()
-
-    @classmethod
-    def random(cls) -> Fur:
-        """Return a random fur color."""
-        return random.choice(list(cls))
 
 
 class Body:
@@ -45,13 +20,12 @@ class Body:
     Manage the sprite sheet of the doggo based on the fur color.
     """
 
-    default_direction: Direction = Direction.LEFT
-
     def __init__(
         self,
         fur: Fur,
-        sprite_sheet_size: tuple[int, int],
-        states_sprites_config: dict[StateID, tuple[int, int]],
+        sprite_size: tuple[int, int],
+        default_direction: Direction,
+        sprite_conf_per_state: dict[StateID, tuple[int, int]],
     ) -> None:
         """Initialize the body of the doggo.
 
@@ -63,14 +37,15 @@ class Body:
         sprites for each state.
         """
         self.fur: Fur = fur
+        self.default_direction: Direction = default_direction
 
-        nb_row, nb_column = sprite_sheet_size
+        nb_row, nb_column = sprite_size
         asset_path = ASSETS_PATH.joinpath(f"dogs-{fur:02d}.png")
         self.sprite_sheet = SpriteSheet(path=asset_path, columns=nb_column, rows=nb_row)
 
         self.poses: dict[StateID, dict[Direction, list[pg.Surface]]] = {}
 
-        for state, (col, row) in states_sprites_config.items():
+        for state, (col, row) in sprite_conf_per_state.items():
             self.poses[state] = {
                 direction: [
                     self.sprite_sheet.get_sprite(

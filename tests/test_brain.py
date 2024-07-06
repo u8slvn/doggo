@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from doggo.brain import Brain
-from doggo.brain import Direction
-from doggo.brain import State
-from doggo.brain import StateID
 from doggo.mind import STATES
+from doggo.mind import Direction
+from doggo.mind import State
+from doggo.mind import StateID
 from freezegun import freeze_time
 
 
