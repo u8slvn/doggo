@@ -21,14 +21,13 @@ class Dog:
     def __init__(self, brain: Brain, body: Body) -> None:
         self.brain: Brain = brain
         self.body: Body = body
+        self.pose: pg.Surface = self.body.get_pose(brain=self.brain)
 
     def update(self, dt: float) -> None:
         """Update the doggo."""
         self.brain.update()
+        self.pose = self.body.get_pose(brain=self.brain)
 
     def move(self, surface: pg.Surface) -> None:
         """Move the doggo."""
-        pose = self.body.get_pose(
-            self.brain.current_state.id, self.brain.current_state.direction
-        )
-        surface.blit(pose, (10, 10))
+        surface.blit(self.pose, dest=(10, 10))

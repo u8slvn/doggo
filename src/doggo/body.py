@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from collections import defaultdict
+from itertools import cycle
 from typing import TYPE_CHECKING
+from typing import Iterator
 
 import pygame as pg
 
@@ -12,6 +15,8 @@ from doggo.mind import StateID
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from doggo.brain import Brain
 
 
 class Body:
@@ -36,6 +41,13 @@ class Body:
         States sprites config is a dictionary that contains the configuration of the
         sprites for each state.
         """
+        assert sprite_conf_per_state.keys() == set(StateID), (
+            f"Sprite configuration must be defined for all the states, missing: "
+            f"{set(StateID) - sprite_conf_per_state.keys()}"
+        )
+
+        self.__asked_pose: tuple[StateID, Direction] | None = None
+        self.__current_pose: Iterator[pg.Surface] | None = None
         self.fur: Fur = fur
         self.default_direction: Direction = default_direction
 
@@ -43,22 +55,26 @@ class Body:
         asset_path = ASSETS_PATH.joinpath(f"dogs-{fur:02d}.png")
         self.sprite_sheet = SpriteSheet(path=asset_path, columns=nb_column, rows=nb_row)
 
-        self.poses: dict[StateID, dict[Direction, list[pg.Surface]]] = {}
-
+        self.poses: dict[StateID, dict[Direction, list[pg.Surface]]] = defaultdict(
+            lambda: defaultdict(list)
+        )
         for state, (col, row) in sprite_conf_per_state.items():
-            self.poses[state] = {
-                direction: [
-                    self.sprite_sheet.get_sprite(
-                        loc=(col, row), flip_x=(direction == Direction.LEFT)
-                    )
-                    for direction in Direction
-                ]
-                for direction in Direction
-            }
+            for direction in Direction:
+                for i in range(col):
+                    flip_x = direction == self.default_direction
+                    sprite = self.sprite_sheet.get_sprite((i, row), flip_x=flip_x)
+                    self.poses[state][direction].append(sprite)
 
-    def get_pose(self, state: StateID, direction: Direction) -> pg.Surface:
+    def get_pose(self, brain: Brain) -> pg.Surface:
         """Return the pose of the doggo based on the state and the direction."""
-        return self.poses[state][direction][0]
+        state = brain.current_state.id
+        direction = brain.current_state.direction
+
+        if self.__asked_pose != (state, direction) or self.__current_pose is None:
+            self.__asked_pose = (state, direction)
+            self.__current_pose = cycle(self.poses[state][direction])
+
+        return next(self.__current_pose)
 
 
 class SpriteSheet:
@@ -72,15 +88,16 @@ class SpriteSheet:
             self._sprite_sheet.get_width() // columns,
             self._sprite_sheet.get_height() // rows,
         )
-        print(self._sprite_sheet.get_width())
-        print(self.sprite_size)
 
     def get_sprite(
         self, loc: tuple[int, int], flip_x: bool = False, flip_y: bool = False
     ) -> pg.Surface:
-        """Return a sprite from the sprite sheet based on the location."""
-        if loc[0] >= self.rows or loc[1] >= self.columns:
-            raise ValueError("Sprite location is out of bounds")
+        """Return a sprite from the sprite sheet based on the location.
+
+        The location is a tuple (column, row) of the sprite in the sprite sheet.
+        """
+        if loc[0] >= self.columns or loc[1] >= self.rows:
+            raise ValueError(f"Sprite location is out of bounds: {loc}")
 
         x = loc[0] * self.sprite_size[0]
         y = loc[1] * self.sprite_size[1]

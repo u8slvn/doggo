@@ -21,7 +21,7 @@ class StateID(IntEnum):
     WALK = auto()
     SIT = auto()
     RUN = auto()
-    EAT = auto()
+    SLEEP = auto()
 
     @classmethod
     def random(cls) -> StateID:
@@ -109,9 +109,9 @@ STATES = [
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.EAT: 0.2,
+            StateID.SLEEP: 0.2,
         },
-        time_range=(1, 5),
+        time_range=(5, 10),
     ),
     State(
         id=StateID.WALK,
@@ -121,9 +121,9 @@ STATES = [
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.EAT: 0.2,
+            StateID.SLEEP: 0.2,
         },
-        time_range=(1, 5),
+        time_range=(5, 10),
     ),
     State(
         id=StateID.SIT,
@@ -133,9 +133,9 @@ STATES = [
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.EAT: 0.2,
+            StateID.SLEEP: 0.2,
         },
-        time_range=(1, 5),
+        time_range=(5, 10),
     ),
     State(
         id=StateID.RUN,
@@ -145,20 +145,20 @@ STATES = [
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.EAT: 0.2,
+            StateID.SLEEP: 0.2,
         },
-        time_range=(1, 5),
+        time_range=(5, 10),
     ),
     State(
-        id=StateID.EAT,
-        text="I'm eating",
+        id=StateID.SLEEP,
+        text="I'm sleeping, zzzz...",
         transitions={
             StateID.IDLE: 0.2,
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.EAT: 0.2,
+            StateID.SLEEP: 0.2,
         },
-        time_range=(1, 5),
+        time_range=(5, 10),
     ),
 ]

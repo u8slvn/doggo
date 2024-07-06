@@ -15,11 +15,11 @@ from doggo.mind import StateID
 SPRITE_SIZE = (9, 8)  # rows, columns in the sprite sheet
 SPRITE_DIRECTION = Direction.LEFT
 SPRITE_CONF_PER_STATE = {
-    StateID.IDLE: (0, 0),
-    StateID.WALK: (1, 1),
-    StateID.RUN: (2, 2),
-    StateID.EAT: (3, 3),
-    StateID.SIT: (4, 4),
+    StateID.IDLE: (6, 0),
+    StateID.WALK: (6, 4),
+    StateID.RUN: (6, 3),
+    StateID.SLEEP: (4, 8),
+    StateID.SIT: (6, 1),
 }
 
 
