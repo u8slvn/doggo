@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+import time
 
 from dataclasses import dataclass
 from dataclasses import field
@@ -8,6 +9,8 @@ from enum import IntEnum
 from enum import auto
 
 import numpy as np
+
+from loguru import logger
 
 
 class StateID(IntEnum):
@@ -66,7 +69,11 @@ class Brain:
         initial_state_id = (
             StateID.random() if default_state_id is None else default_state_id
         )
-        self.current_state = self._states[initial_state_id]()
+        self.current_state: State = self._states[initial_state_id]()
+
+    @property
+    def state_name(self) -> str:
+        return self.current_state.name
 
     def is_doing(self) -> str:
         """Return a human-friendly representation of what the brain is doing."""
@@ -75,11 +82,12 @@ class Brain:
     def change_state(self, state_id: StateID) -> None:
         """Change the current state of the brain."""
         self.current_state = self._states[state_id]()
+        logger.info(
+            f"Doggo brain decided to {self.state_name} for {self.current_state.countdown}s: {self.is_doing()}"
+        )
 
     def update(self) -> None:
         """Update the current brain state."""
-        self.current_state.tick()
-
         if self.current_state.is_done():
             self.change_state(state_id=self.current_state.get_next_state_id())
 
@@ -92,11 +100,12 @@ class Brain:
 class State:
     """A state of the doggo."""
 
+    _clock: float = field(init=False, default_factory=time.time)
     id: StateID
     text: str
     transitions: dict[StateID, float]
     time_range: tuple[int, int]
-    time: int = 0
+    countdown: int = 0
     direction: Direction = field(default_factory=Direction.random)
 
     def __post_init__(self) -> None:
@@ -123,17 +132,14 @@ class State:
         """Return the stylized name of the state."""
         return self.id.name.title()
 
-    def tick(self) -> None:
-        """Update the time of the state."""
-        self.time -= 1
-
     def is_done(self) -> bool:
         """Return whether the state is done or not."""
-        return self.time <= 0
+        return self.countdown <= time.time() - self._clock
 
     def wind_up(self) -> None:
         """Wind up the state for a new iteration."""
-        self.time = random.randint(*self.time_range)
+        self._clock = time.time()
+        self.countdown = random.randint(*self.time_range)
 
     def get_next_state_id(self) -> StateID:
         """Return the next state based on the transition probabilities."""

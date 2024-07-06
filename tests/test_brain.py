@@ -5,12 +5,91 @@ from doggo.brain import Direction
 from doggo.brain import State
 from doggo.brain import StateID
 from doggo.mind import STATES
-
-from tests.conftest import STATES_TEST
+from freezegun import freeze_time
 
 
 def full_range(range_: tuple[int, int]) -> list[int]:
     return list(range(range_[0], range_[1] + 1))
+
+
+def state_factory(state_id: StateID) -> State:
+    return State(
+        id=state_id,
+        time_range=(1, 5),
+        text=state_id.name.title(),
+        transitions={
+            StateID.IDLE: 0.3,
+            StateID.WALK: 0.3,
+            StateID.SIT: 0.2,
+            StateID.RUN: 0.2,
+            StateID.EAT: 0.0,
+        },
+    )
+
+
+def get_states_test():
+    return [
+        State(
+            id=StateID.IDLE,
+            text=f"test {StateID.IDLE.name}",
+            transitions={
+                StateID.IDLE: 0.0,
+                StateID.WALK: 0.3,
+                StateID.SIT: 0.3,
+                StateID.RUN: 0.2,
+                StateID.EAT: 0.2,
+            },
+            time_range=(1, 5),
+        ),
+        State(
+            id=StateID.WALK,
+            text=f"test {StateID.WALK.name}",
+            transitions={
+                StateID.IDLE: 0.3,
+                StateID.WALK: 0.0,
+                StateID.SIT: 0.3,
+                StateID.RUN: 0.2,
+                StateID.EAT: 0.2,
+            },
+            time_range=(1, 5),
+        ),
+        State(
+            id=StateID.SIT,
+            text=f"test {StateID.SIT.name}",
+            transitions={
+                StateID.IDLE: 0.3,
+                StateID.WALK: 0.3,
+                StateID.SIT: 0.0,
+                StateID.RUN: 0.2,
+                StateID.EAT: 0.2,
+            },
+            time_range=(1, 5),
+        ),
+        State(
+            id=StateID.RUN,
+            text=f"test {StateID.RUN.name}",
+            transitions={
+                StateID.IDLE: 0.3,
+                StateID.WALK: 0.3,
+                StateID.SIT: 0.2,
+                StateID.RUN: 0.0,
+                StateID.EAT: 0.2,
+            },
+            time_range=(1, 5),
+        ),
+        State(
+            id=StateID.EAT,
+            text=f"test {StateID.EAT.name}",
+            transitions={
+                StateID.IDLE: 0.3,
+                StateID.WALK: 0.3,
+                StateID.SIT: 0.2,
+                StateID.RUN: 0.2,
+                StateID.EAT: 0.0,
+            },
+            time_range=(1, 5),
+        ),
+    ]
 
 
 def test_get_random_state_id():
@@ -33,34 +112,27 @@ def test_get_random_direction():
 
 
 def test_state_name_is_well_formatted():
-    state = STATES_TEST[0]
+    state = state_factory(StateID.IDLE)
 
     assert state.name == state.id.name.title()
 
 
-def test_state_tick_decreases_time():
-    state = STATES_TEST[0]
-    state.time = 5
-
-    state.tick()
-
-    assert state.time == 4
-
-
 def test_state_is_done_when_time_is_up():
-    state = STATES_TEST[0]
-    state.time = 0
+    with freeze_time("2024-07-01 00:00:00"):
+        state = state_factory(StateID.IDLE)
+    state.countdown = 1
 
-    assert state.is_done() is True
+    with freeze_time("2024-07-01 00:00:01"):
+        assert state.is_done() is True
 
 
-def test_wind_up_sets_time_and_direction():
-    state = STATES_TEST[0]
-    state.time = 0
+def test_wind_up_sets_countdown_and_direction():
+    state = state_factory(StateID.IDLE)
+    state.countdown = 0
 
     state.wind_up()
 
-    assert state.time in full_range(state.time_range)
+    assert state.countdown in full_range(state.time_range)
 
 
 def test_brain_initializes_correctly():
@@ -73,20 +145,22 @@ def test_brain_initializes_correctly():
 
 
 def test_change_state_of_brain():
-    brain = Brain(states=STATES_TEST, default_state_id=StateID.IDLE)
-    brain.current_state.time = 0
+    brain = Brain(states=get_states_test(), default_state_id=StateID.IDLE)
+    brain.current_state.countdown = 0
 
     brain.change_state(state_id=StateID.WALK)
 
     assert brain.current_state.id != StateID.IDLE
-    assert brain.current_state.time in full_range(brain.current_state.time_range)
+    assert brain.current_state.countdown in full_range(brain.current_state.time_range)
 
 
 def test_update_brain_changes_state_when_time_is_up():
-    brain = Brain(states=STATES_TEST, default_state_id=StateID.IDLE)
-    brain.current_state.time = 1
+    with freeze_time("2024-07-01 00:00:00"):
+        brain = Brain(states=get_states_test(), default_state_id=StateID.IDLE)
+    brain.current_state.countdown = 1
 
-    brain.update()
+    with freeze_time("2024-07-01 00:00:01"):
+        brain.update()
 
     assert brain.current_state.id != StateID.IDLE
-    assert brain.current_state.time in full_range(brain.current_state.time_range)
+    assert brain.current_state.countdown in full_range(brain.current_state.time_range)

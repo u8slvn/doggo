@@ -45,10 +45,11 @@ class Body:
     Manage the sprite sheet of the doggo based on the fur color.
     """
 
+    default_direction: Direction = Direction.LEFT
+
     def __init__(
         self,
         fur: Fur,
-        default_direction: Direction,
         sprite_sheet_size: tuple[int, int],
         states_sprites_config: dict[StateID, tuple[int, int]],
     ) -> None:
@@ -62,11 +63,10 @@ class Body:
         sprites for each state.
         """
         self.fur: Fur = fur
-        self.default_direction: Direction = default_direction
 
-        columns, rows = sprite_sheet_size
-        asset_path = ASSETS_PATH.joinpath(f"dogs_{fur:02d}.png")
-        self.sprite_sheet = SpriteSheet(path=asset_path, columns=columns, rows=rows)
+        nb_row, nb_column = sprite_sheet_size
+        asset_path = ASSETS_PATH.joinpath(f"dogs-{fur:02d}.png")
+        self.sprite_sheet = SpriteSheet(path=asset_path, columns=nb_column, rows=nb_row)
 
         self.poses: dict[StateID, dict[Direction, list[pg.Surface]]] = {}
 
@@ -89,20 +89,22 @@ class Body:
 class SpriteSheet:
     """Load a sprite sheet and extract sprites from it."""
 
-    def __init__(self, path: Path, columns: int, rows: int) -> None:
+    def __init__(self, path: Path, rows: int, columns: int) -> None:
         self._sprite_sheet = pg.image.load(path).convert_alpha()
-        self.rows = rows
         self.columns = columns
+        self.rows = rows
         self.sprite_size = (
             self._sprite_sheet.get_width() // columns,
             self._sprite_sheet.get_height() // rows,
         )
+        print(self._sprite_sheet.get_width())
+        print(self.sprite_size)
 
     def get_sprite(
         self, loc: tuple[int, int], flip_x: bool = False, flip_y: bool = False
     ) -> pg.Surface:
         """Return a sprite from the sprite sheet based on the location."""
-        if loc[0] >= self.columns or loc[1] >= self.rows:
+        if loc[0] >= self.rows or loc[1] >= self.columns:
             raise ValueError("Sprite location is out of bounds")
 
         x = loc[0] * self.sprite_size[0]
