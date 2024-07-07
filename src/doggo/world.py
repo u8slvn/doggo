@@ -15,7 +15,7 @@ class World:
     It contains the game loop and the main logic of the game.
     """
 
-    def __init__(self, screen: pg.Surface, dog: Dog, fps: int = 10) -> None:
+    def __init__(self, screen: pg.Surface, dog: Dog, fps: int = 60) -> None:
         self.screen: pg.Surface = screen
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()

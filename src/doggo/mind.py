@@ -57,6 +57,7 @@ class State:
     time_range: tuple[int, int]
     countdown: int = 0
     direction: Direction = field(default_factory=Direction.random)
+    animation_time_rate: float = 0.1
 
     def __post_init__(self) -> None:
         assert len(self.transitions) == len(StateID), (
@@ -160,5 +161,6 @@ STATES = [
             StateID.SLEEP: 0.2,
         },
         time_range=(5, 10),
+        animation_time_rate=0.2,
     ),
 ]

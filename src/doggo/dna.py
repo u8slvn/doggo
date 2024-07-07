@@ -16,8 +16,8 @@ SPRITE_SIZE = (9, 8)  # rows, columns in the sprite sheet
 SPRITE_DIRECTION = Direction.LEFT
 SPRITE_CONF_PER_STATE = {
     StateID.IDLE: (6, 0),
-    StateID.WALK: (6, 4),
-    StateID.RUN: (6, 3),
+    StateID.WALK: (8, 4),
+    StateID.RUN: (8, 3),
     StateID.SLEEP: (4, 8),
     StateID.SIT: (6, 1),
 }
