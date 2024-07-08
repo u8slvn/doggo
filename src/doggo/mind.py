@@ -33,6 +33,9 @@ class StateID(IntEnum):
         """Return a random state based on the given probabilities."""
         return cls(np.random.choice(list(cls), p=p))
 
+    def __str__(self) -> str:
+        return self.name.replace("_", " ")
+
 
 class Direction(IntEnum):
     """The possible directions of the doggo."""
@@ -57,6 +60,7 @@ class State:
     time_range: tuple[int, int]
     countdown: int = 0
     direction: Direction = field(default_factory=Direction.random)
+    speed: int = 50
     animation_time_rate: float = 0.1
 
     def __post_init__(self) -> None:
@@ -107,12 +111,13 @@ STATES = [
         text="I'm just chilling",
         transitions={
             StateID.IDLE: 0.2,
-            StateID.WALK: 0.2,
+            StateID.WALK: 0.4,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.SLEEP: 0.2,
+            StateID.SLEEP: 0.0,
         },
         time_range=(5, 10),
+        speed=0,
     ),
     State(
         id=StateID.WALK,
@@ -121,8 +126,8 @@ STATES = [
             StateID.IDLE: 0.2,
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
-            StateID.RUN: 0.2,
-            StateID.SLEEP: 0.2,
+            StateID.RUN: 0.4,
+            StateID.SLEEP: 0.0,
         },
         time_range=(5, 10),
     ),
@@ -133,34 +138,37 @@ STATES = [
             StateID.IDLE: 0.2,
             StateID.WALK: 0.2,
             StateID.SIT: 0.2,
-            StateID.RUN: 0.2,
-            StateID.SLEEP: 0.2,
+            StateID.RUN: 0.0,
+            StateID.SLEEP: 0.4,
         },
         time_range=(5, 10),
+        speed=0,
     ),
     State(
         id=StateID.RUN,
         text="I'm running",
         transitions={
             StateID.IDLE: 0.2,
-            StateID.WALK: 0.2,
+            StateID.WALK: 0.4,
             StateID.SIT: 0.2,
             StateID.RUN: 0.2,
-            StateID.SLEEP: 0.2,
+            StateID.SLEEP: 0.0,
         },
         time_range=(5, 10),
+        speed=100,
     ),
     State(
         id=StateID.SLEEP,
         text="I'm sleeping, zzzz...",
         transitions={
             StateID.IDLE: 0.2,
-            StateID.WALK: 0.2,
-            StateID.SIT: 0.2,
+            StateID.WALK: 0.0,
+            StateID.SIT: 0.4,
             StateID.RUN: 0.2,
             StateID.SLEEP: 0.2,
         },
         time_range=(5, 10),
         animation_time_rate=0.2,
+        speed=0,
     ),
 ]

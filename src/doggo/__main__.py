@@ -6,6 +6,9 @@ from doggo import dna
 from doggo import mind
 from doggo.body import Body
 from doggo.brain import Brain
+from doggo.config import WORLD_FLOOR_LEVEL
+from doggo.config import WORLD_HEIGHT
+from doggo.config import WORLD_WIDTH
 from doggo.dog import Dog
 from doggo.world import World
 
@@ -13,7 +16,7 @@ from doggo.world import World
 def run() -> None:
     pg.init()
     pg.display.set_caption("Doggo")
-    screen = pg.display.set_mode((300, 100))
+    screen = pg.display.set_mode((WORLD_WIDTH, WORLD_HEIGHT))
 
     brain = Brain(states=mind.STATES)
     body = Body(
@@ -22,7 +25,7 @@ def run() -> None:
         default_direction=dna.SPRITE_DIRECTION,
         sprite_conf_per_state=dna.SPRITE_CONF_PER_STATE,
     )
-    dog = Dog(brain=brain, body=body)
+    dog = Dog(brain=brain, body=body, y=WORLD_FLOOR_LEVEL)
     world = World(screen=screen, dog=dog)
     world.start()
 

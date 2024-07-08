@@ -13,7 +13,8 @@ from doggo.mind import StateID
 
 
 SPRITE_SIZE = (9, 8)  # rows, columns in the sprite sheet
-SPRITE_DIRECTION = Direction.LEFT
+SPRITE_DIRECTION = Direction.LEFT  # Default direction of the sprite
+# Number of sprites per state in the sprite sheet and row index
 SPRITE_CONF_PER_STATE = {
     StateID.IDLE: (6, 0),
     StateID.WALK: (8, 4),

@@ -21,7 +21,7 @@ class World:
         self.clock: pg.time.Clock = pg.time.Clock()
         self.running: bool = False
         self.dt: float = 0.0
-        self.prev_time: float = 0.0
+        self.prev_time: float = time.time()
         self.dog: Dog = dog
 
     def process_inputs(self) -> None:
@@ -42,8 +42,8 @@ class World:
 
     def render(self) -> None:
         """Render the world."""
-        self.screen.fill((255, 0, 255))
-        self.dog.move(surface=self.screen)
+        self.screen.fill((135, 206, 235))
+        self.dog.render(surface=self.screen)
         pg.display.update()
 
     def start(self) -> None:

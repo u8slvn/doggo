@@ -61,7 +61,7 @@ class Body:
         for state, (col, row) in sprite_conf_per_state.items():
             for direction in Direction:
                 for i in range(col):
-                    flip_x = direction == self.default_direction
+                    flip_x = direction != self.default_direction
                     sprite = self.sprite_sheet.get_sprite((i, row), flip_x=flip_x)
                     self.poses[state][direction].append(sprite)
 
