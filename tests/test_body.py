@@ -4,7 +4,7 @@ import pygame as pg
 import pytest
 
 from doggo import ASSETS_PATH
-from doggo.body import SpriteSheet
+from doggo.dog.body import SpriteSheet
 
 
 def test_sprite_sheet_get_sprite_returns_a_sprite():

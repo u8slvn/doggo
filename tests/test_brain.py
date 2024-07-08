@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from doggo.brain import Brain
-from doggo.mind import STATES
-from doggo.mind import Direction
-from doggo.mind import State
-from doggo.mind import StateID
+from doggo.config import DOGGO_STATES
+from doggo.dog.brain import Brain
+from doggo.dog.brain import Direction
+from doggo.dog.brain import State
+from doggo.dog.brain import StateID
 from freezegun import freeze_time
 
 
@@ -334,7 +334,7 @@ def test_wind_up_sets_countdown_and_direction():
 
 
 def test_brain_initializes_correctly():
-    brain = Brain(states=STATES)
+    brain = Brain(states=DOGGO_STATES)
 
     assert isinstance(brain.current_state, State)
     assert brain.current_state.id in StateID

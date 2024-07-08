@@ -1,6 +1,10 @@
 from __future__ import annotations
 
+import random
+
 from collections import defaultdict
+from enum import IntEnum
+from enum import auto
 from itertools import cycle
 from typing import TYPE_CHECKING
 from typing import Iterator
@@ -8,15 +12,36 @@ from typing import Iterator
 import pygame as pg
 
 from doggo import ASSETS_PATH
-from doggo.dna import Fur
-from doggo.mind import Direction
-from doggo.mind import StateID
+from doggo.dog.brain import Direction
+from doggo.dog.brain import StateID
 
 
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from doggo.brain import Brain
+    from doggo.dog.brain import Brain
+
+
+class Fur(IntEnum):
+    """The possible fur colors of the doggo."""
+
+    DARK_BROWN = 0
+    LIGHT_BROWN = auto()
+    GREY = auto()
+    BLUE = auto()
+    RED_BROWN = auto()
+    WHITE = auto()
+    WHITE_WITH_BROWN_SPOTS = auto()
+    DARK_BROWN_WITH_GREY_SPOTS = auto()
+    WHITE_WITH_GREY_SPOTS = auto()
+    BLUE_WITH_BROWN_SPOTS = auto()
+    LIGHT_BROWN_WITH_WHITE_SPOTS = auto()
+    ORANGE = auto()
+
+    @classmethod
+    def random(cls) -> Fur:
+        """Return a random fur color."""
+        return random.choice(list(cls))
 
 
 class Body:

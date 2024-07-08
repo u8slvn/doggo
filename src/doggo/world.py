@@ -6,7 +6,7 @@ import pygame as pg
 
 from loguru import logger
 
-from doggo.dog import Dog
+from doggo.dog.dog import Dog
 
 
 class World:
