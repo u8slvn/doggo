@@ -4,7 +4,6 @@ import random
 
 from typing import TYPE_CHECKING
 
-from doggo.config import WORLD_WIDTH
 from doggo.dog.body import Body
 from doggo.dog.brain import Direction
 from doggo.dog.brain import StateID
@@ -23,14 +22,17 @@ class Dog:
     the second one is used to display it.
     """
 
-    def __init__(self, brain: Brain, body: Body, y: int) -> None:
+    def __init__(
+        self, brain: Brain, body: Body, world_floor: int, world_width: int
+    ) -> None:
         self.brain: Brain = brain
         self.body: Body = body
+        self.world_width: int = world_width
         self.current_animation_time_rate: float = 0.0
         self.pose: pg.Surface = self.body.get_pose(brain=self.brain)
         self.rect = self.pose.get_rect()
-        self.x = float(random.randint(0, WORLD_WIDTH - self.rect.width))
-        self.rect.topleft = (int(self.x), y)
+        self.x = float(random.randint(0, self.world_width - self.rect.width))
+        self.rect.bottomleft = (int(self.x), world_floor)
         self.clone: BoundaryClone = BoundaryClone(self)
 
     @property
@@ -63,8 +65,8 @@ class Dog:
 
         # Manage world boundaries.
         if self.rect.right < 0:
-            self.x = WORLD_WIDTH - self.rect.width
-        elif self.rect.left > WORLD_WIDTH:
+            self.x = self.world_width - self.rect.width
+        elif self.rect.left > self.world_width:
             self.x = 0
 
         # Move the doggo.
@@ -97,10 +99,10 @@ class BoundaryClone:
         """Update the clone."""
         if self.dog.rect.left < 0:
             self.visible = True
-            self.rect.x = self.dog.rect.x + WORLD_WIDTH
-        elif self.dog.rect.right > WORLD_WIDTH:
+            self.rect.x = self.dog.rect.x + self.dog.world_width
+        elif self.dog.rect.right > self.dog.world_width:
             self.visible = True
-            self.rect.x = self.dog.rect.x - WORLD_WIDTH
+            self.rect.x = self.dog.rect.x - self.dog.world_width
         else:
             self.visible = False
 

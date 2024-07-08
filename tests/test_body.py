@@ -8,7 +8,7 @@ from doggo.dog.body import SpriteSheet
 
 
 def test_sprite_sheet_get_sprite_returns_a_sprite():
-    sprite_sheet_path = ASSETS_PATH.joinpath("dogs-00.png")
+    sprite_sheet_path = ASSETS_PATH.joinpath("dogs/00.png")
     sprite_sheet = SpriteSheet(path=sprite_sheet_path, columns=8, rows=9)
 
     sprite = sprite_sheet.get_sprite(loc=(0, 0))
@@ -19,7 +19,7 @@ def test_sprite_sheet_get_sprite_returns_a_sprite():
 
 
 def test_sprite_sheet_get_sprite_fails_if_loc_is_outside_of_the_sheet():
-    sprite_sheet_path = ASSETS_PATH.joinpath("dogs-00.png")
+    sprite_sheet_path = ASSETS_PATH.joinpath("dogs/00.png")
     sprite_sheet = SpriteSheet(path=sprite_sheet_path, columns=8, rows=9)
 
     with pytest.raises(ValueError, match="Sprite location is out of bounds"):

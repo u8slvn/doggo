@@ -77,7 +77,7 @@ class Body:
         self.default_direction: Direction = default_direction
 
         nb_row, nb_column = sprite_size
-        asset_path = ASSETS_PATH.joinpath(f"dogs-{fur:02d}.png")
+        asset_path = ASSETS_PATH.joinpath(f"dogs/{fur:02d}.png")
         self.sprite_sheet = SpriteSheet(path=asset_path, columns=nb_column, rows=nb_row)
 
         self.poses: dict[StateID, dict[Direction, list[pg.Surface]]] = defaultdict(

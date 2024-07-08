@@ -6,10 +6,13 @@ from doggo.dog.brain import StateID
 
 
 # --- World configuration ---
-
+WORLD_FPS = 60
 WORLD_WIDTH = 350
 WORLD_HEIGHT = 100
-WORLD_FLOOR_LEVEL = 20  # The floor level in the world, where the doggo can walk on.
+WORLD_FLOOR_HEIGHT = 15  # The size of the floor in the world.
+WORLD_FLOOR = (
+    WORLD_HEIGHT - WORLD_FLOOR_HEIGHT
+)  # The floor level in the world, where the doggo can walk on.
 
 # --- Doggo sprite sheet configuration ---
 
@@ -51,7 +54,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(3, 10),
+        time_range=(2, 10),
         speed=0,
     ),
     State(
@@ -71,7 +74,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(3, 10),
+        time_range=(2, 10),
         speed=0,
     ),
     State(
@@ -91,7 +94,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(5, 10),
+        time_range=(2, 20),
     ),
     State(
         id=StateID.WALK_AND_BARK,
@@ -110,7 +113,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(5, 10),
+        time_range=(3, 10),
     ),
     State(
         id=StateID.SIT,
@@ -129,7 +132,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 10),
+        time_range=(5, 15),
         speed=0,
     ),
     State(
@@ -169,7 +172,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 10),
+        time_range=(10, 20),
         speed=0,
     ),
     State(
@@ -209,7 +212,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.0,
         },
-        time_range=(5, 10),
+        time_range=(3, 15),
         speed=100,
     ),
     State(
@@ -229,7 +232,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.0,
         },
-        time_range=(5, 10),
+        time_range=(3, 15),
         speed=100,
     ),
     State(
@@ -249,7 +252,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 10),
+        time_range=(3, 10),
         speed=0,
     ),
     State(
@@ -269,7 +272,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 10),
+        time_range=(3, 10),
         speed=0,
     ),
     State(
@@ -289,7 +292,7 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.0,
         },
-        time_range=(5, 10),
+        time_range=(10, 30),
         animation_time_rate=0.2,
         speed=0,
     ),
