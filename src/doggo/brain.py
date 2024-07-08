@@ -32,19 +32,11 @@ class Brain:
         )
         self.current_state: State = self._states[initial_state_id]()
 
-    @property
-    def state_name(self) -> str:
-        return self.current_state.name
-
-    def is_doing(self) -> str:
-        """Return a human-friendly representation of what the brain is doing."""
-        return self.current_state.text
-
     def change_state(self, state_id: StateID) -> None:
         """Change the current state of the brain."""
         self.current_state = self._states[state_id]()
         logger.info(
-            f"Doggo brain decided to {self.state_name} for {self.current_state.countdown}s: {self.is_doing()}"
+            f"Doggo brain decided to {self.current_state.id} for {self.current_state.countdown}s."
         )
 
     def update(self) -> None:
@@ -54,4 +46,4 @@ class Brain:
 
     def __repr__(self) -> str:
         """String representation of the brain."""
-        return f"{self.__class__.__name__}({self.is_doing()}...)"
+        return f"{self.__class__.__name__}({self.current_state.id})"

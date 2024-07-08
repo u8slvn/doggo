@@ -16,7 +16,6 @@ def state_factory(state_id: StateID) -> State:
     return State(
         id=state_id,
         time_range=(1, 5),
-        text=state_id.name.title(),
         transitions={
             StateID.IDLE: 0.3,
             StateID.WALK: 0.3,
@@ -31,7 +30,6 @@ def get_states_test():
     return [
         State(
             id=StateID.IDLE,
-            text=f"test {StateID.IDLE.name}",
             transitions={
                 StateID.IDLE: 0.0,
                 StateID.WALK: 0.3,
@@ -43,7 +41,6 @@ def get_states_test():
         ),
         State(
             id=StateID.WALK,
-            text=f"test {StateID.WALK.name}",
             transitions={
                 StateID.IDLE: 0.3,
                 StateID.WALK: 0.0,
@@ -55,7 +52,6 @@ def get_states_test():
         ),
         State(
             id=StateID.SIT,
-            text=f"test {StateID.SIT.name}",
             transitions={
                 StateID.IDLE: 0.3,
                 StateID.WALK: 0.3,
@@ -67,7 +63,6 @@ def get_states_test():
         ),
         State(
             id=StateID.RUN,
-            text=f"test {StateID.RUN.name}",
             transitions={
                 StateID.IDLE: 0.3,
                 StateID.WALK: 0.3,
@@ -79,7 +74,6 @@ def get_states_test():
         ),
         State(
             id=StateID.SLEEP,
-            text=f"test {StateID.SLEEP.name}",
             transitions={
                 StateID.IDLE: 0.3,
                 StateID.WALK: 0.3,
@@ -111,12 +105,6 @@ def test_get_random_direction():
     assert direction in Direction
 
 
-def test_state_name_is_well_formatted():
-    state = state_factory(StateID.IDLE)
-
-    assert state.name == state.id.name.title()
-
-
 def test_state_is_done_when_time_is_up():
     with freeze_time("2024-07-01 00:00:00"):
         state = state_factory(StateID.IDLE)
@@ -140,8 +128,7 @@ def test_brain_initializes_correctly():
 
     assert isinstance(brain.current_state, State)
     assert brain.current_state.id in StateID
-    assert brain.is_doing() == brain.current_state.text
-    assert str(brain) == f"Brain({brain.current_state.text}...)"
+    assert str(brain) == f"Brain({brain.current_state.id})"
 
 
 def test_change_state_of_brain():

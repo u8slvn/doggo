@@ -55,7 +55,6 @@ class State:
 
     _clock: float = field(init=False, default_factory=time.time)
     id: StateID
-    text: str
     transitions: dict[StateID, float]
     time_range: tuple[int, int]
     countdown: int = 0
@@ -65,11 +64,11 @@ class State:
 
     def __post_init__(self) -> None:
         assert len(self.transitions) == len(StateID), (
-            f"The number of transitions of state {self.name} must be equal "
+            f"The number of transitions of state {self.id} must be equal "
             f"to the number of states"
         )
         assert sum(self.transitions.values()) == 1, (
-            f"The sum of the transition probabilities of state {self.name} "
+            f"The sum of the transition probabilities of state {self.id} "
             f"must be equal to 1"
         )
 
@@ -81,11 +80,6 @@ class State:
         self.direction = Direction.random()
 
         return self
-
-    @property
-    def name(self) -> str:
-        """Return the stylized name of the state."""
-        return self.id.name.title()
 
     def is_done(self) -> bool:
         """Return whether the state is done or not."""
@@ -108,7 +102,6 @@ class State:
 STATES = [
     State(
         id=StateID.IDLE,
-        text="I'm just chilling",
         transitions={
             StateID.IDLE: 0.2,
             StateID.WALK: 0.4,
@@ -121,7 +114,6 @@ STATES = [
     ),
     State(
         id=StateID.WALK,
-        text="I'm going for a walk",
         transitions={
             StateID.IDLE: 0.2,
             StateID.WALK: 0.2,
@@ -133,7 +125,6 @@ STATES = [
     ),
     State(
         id=StateID.SIT,
-        text="I'm sitting",
         transitions={
             StateID.IDLE: 0.2,
             StateID.WALK: 0.2,
@@ -146,7 +137,6 @@ STATES = [
     ),
     State(
         id=StateID.RUN,
-        text="I'm running",
         transitions={
             StateID.IDLE: 0.2,
             StateID.WALK: 0.4,
@@ -159,7 +149,6 @@ STATES = [
     ),
     State(
         id=StateID.SLEEP,
-        text="I'm sleeping, zzzz...",
         transitions={
             StateID.IDLE: 0.2,
             StateID.WALK: 0.0,
