@@ -50,7 +50,8 @@ class World:
         """Start the world"""
         logger.info("World started. Doggo is awake.")
         logger.info(
-            f"Doggo parachuted in the world and start to {self.dog.current_state} for {self.dog.brain.current_state.countdown}s."
+            f"Doggo parachuted in the world and start to {self.dog.current_state} "
+            f"for {self.dog.brain.current_state.countdown}s."
         )
 
         self.running = True

@@ -71,8 +71,8 @@ class Body:
             f"{set(StateID) - sprite_conf_per_state.keys()}"
         )
 
-        self.__asked_pose: tuple[StateID, Direction] | None = None
-        self.__current_pose: Iterator[pg.Surface] | None = None
+        self.__asked_image: tuple[StateID, Direction] | None = None
+        self.__current_image: Iterator[pg.Surface] | None = None
         self.fur: Fur = fur
         self.default_direction: Direction = default_direction
 
@@ -80,7 +80,7 @@ class Body:
         asset_path = ASSETS_PATH.joinpath(f"dogs/{fur:02d}.png")
         self.sprite_sheet = SpriteSheet(path=asset_path, columns=nb_column, rows=nb_row)
 
-        self.poses: dict[StateID, dict[Direction, list[pg.Surface]]] = defaultdict(
+        self.images: dict[StateID, dict[Direction, list[pg.Surface]]] = defaultdict(
             lambda: defaultdict(list)
         )
         for state, (col, row) in sprite_conf_per_state.items():
@@ -88,18 +88,18 @@ class Body:
                 for i in range(col):
                     flip_x = direction != self.default_direction
                     sprite = self.sprite_sheet.get_sprite((i, row), flip_x=flip_x)
-                    self.poses[state][direction].append(sprite)
+                    self.images[state][direction].append(sprite)
 
-    def get_pose(self, brain: Brain) -> pg.Surface:
+    def get_image(self, brain: Brain) -> pg.Surface:
         """Return the pose of the doggo based on the state and the direction."""
         state = brain.current_state.id
         direction = brain.current_state.direction
 
-        if self.__asked_pose != (state, direction) or self.__current_pose is None:
-            self.__asked_pose = (state, direction)
-            self.__current_pose = cycle(self.poses[state][direction])
+        if self.__asked_image != (state, direction) or self.__current_image is None:
+            self.__asked_image = (state, direction)
+            self.__current_image = cycle(self.images[state][direction])
 
-        return next(self.__current_pose)
+        return next(self.__current_image)
 
 
 class SpriteSheet:

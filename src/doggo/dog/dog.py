@@ -29,8 +29,8 @@ class Dog:
         self.body: Body = body
         self.world_width: int = world_width
         self.current_animation_time_rate: float = 0.0
-        self.pose: pg.Surface = self.body.get_pose(brain=self.brain)
-        self.rect = self.pose.get_rect()
+        self.image: pg.Surface = self.body.get_image(brain=self.brain)
+        self.rect = self.image.get_rect()
         self.x = float(random.randint(0, self.world_width - self.rect.width))
         self.rect.bottomleft = (int(self.x), world_floor)
         self.clone: BoundaryClone = BoundaryClone(self)
@@ -61,7 +61,7 @@ class Dog:
             >= self.brain.current_state.animation_time_rate
         ):
             self.current_animation_time_rate = 0.0
-            self.pose = self.body.get_pose(brain=self.brain)
+            self.image = self.body.get_image(brain=self.brain)
 
         # Manage world boundaries.
         if self.rect.right < 0:
@@ -79,8 +79,8 @@ class Dog:
 
     def render(self, surface: pg.Surface) -> None:
         """Move the doggo."""
+        surface.blit(self.image, dest=self.rect)
         self.clone.render(surface=surface)
-        surface.blit(self.pose, dest=self.rect)
 
 
 class BoundaryClone:
@@ -109,4 +109,4 @@ class BoundaryClone:
     def render(self, surface: pg.Surface) -> None:
         """Render the clone."""
         if self.visible:
-            surface.blit(self.dog.pose, dest=self.rect)
+            surface.blit(self.dog.image, dest=self.rect)

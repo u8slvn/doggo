@@ -136,7 +136,8 @@ class Brain:
         """Change the current state of the brain."""
         self.current_state = self._states[state_id]()
         logger.info(
-            f"Doggo brain decided to {self.current_state.id} for {self.current_state.countdown}s."
+            f"Doggo brain decided to {self.current_state.id} for "
+            f"{self.current_state.countdown}s."
         )
 
     def update(self) -> None:

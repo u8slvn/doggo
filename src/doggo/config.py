@@ -6,6 +6,7 @@ from doggo.dog.brain import StateID
 
 
 # --- World configuration ---
+
 WORLD_FPS = 60
 WORLD_WIDTH = 350
 WORLD_HEIGHT = 100
@@ -18,6 +19,7 @@ WORLD_FLOOR = (
 
 SPRITE_SIZE = (9, 8)  # rows, columns in the sprite sheet
 SPRITE_DIRECTION = Direction.LEFT  # Default direction of the sprite
+# For each state, (number of frames, row index in the sprite sheet)
 SPRITE_CONF_PER_STATE = {
     StateID.IDLE: (6, 0),
     StateID.IDLE_AND_BARK: (8, 0),

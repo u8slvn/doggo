@@ -18,9 +18,17 @@ from doggo.world import World
 
 
 def run() -> None:
+    """Run Doggo.
+
+    Initialize the game and start the world.
+    """
     pg.init()
     pg.display.set_caption("Doggo")
     screen = pg.display.set_mode((WORLD_WIDTH, WORLD_HEIGHT))
+
+    # Workaround to make the window always on top
+    window = pg.Window.from_display_module()
+    window.always_on_top = True
 
     brain = Brain(states=DOGGO_STATES)
     body = Body(
