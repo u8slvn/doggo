@@ -7,6 +7,7 @@ import pygame as pg
 from loguru import logger
 
 from doggo.dog.dog import Dog
+from doggo.ui import DraggableWindow
 
 
 class World:
@@ -16,6 +17,7 @@ class World:
     """
 
     def __init__(self, screen: pg.Surface, dog: Dog, fps: int = 60) -> None:
+        self.draggable_window: DraggableWindow = DraggableWindow()
         self.screen: pg.Surface = screen
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
@@ -29,6 +31,8 @@ class World:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.running = False
+
+            self.draggable_window.process_event(event=event)
 
     def get_dt(self) -> None:
         """Calculate the delta time."""
