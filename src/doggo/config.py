@@ -10,9 +10,9 @@ from doggo.dog.brain import StateID
 WORLD_FPS = 60
 WORLD_WIDTH = 350
 WORLD_HEIGHT = 100
-WORLD_FLOOR_HEIGHT = 15  # The size of the floor in the world.
-WORLD_FLOOR = (
-    WORLD_HEIGHT - WORLD_FLOOR_HEIGHT
+WORLD_GROUND_HEIGHT = 15  # The size of the floor in the world.
+WORLD_GROUND = (
+    WORLD_HEIGHT - WORLD_GROUND_HEIGHT
 )  # The floor level in the world, where the doggo can walk on.
 
 # --- Doggo sprite sheet configuration ---

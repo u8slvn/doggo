@@ -6,8 +6,8 @@ from doggo.config import DOGGO_STATES
 from doggo.config import SPRITE_CONF_PER_STATE
 from doggo.config import SPRITE_DIRECTION
 from doggo.config import SPRITE_SIZE
-from doggo.config import WORLD_FLOOR
 from doggo.config import WORLD_FPS
+from doggo.config import WORLD_GROUND
 from doggo.config import WORLD_HEIGHT
 from doggo.config import WORLD_WIDTH
 from doggo.dog.body import Body
@@ -37,7 +37,9 @@ def run() -> None:
         default_direction=SPRITE_DIRECTION,
         sprite_conf_per_state=SPRITE_CONF_PER_STATE,
     )
-    dog = Dog(brain=brain, body=body, world_floor=WORLD_FLOOR, world_width=WORLD_WIDTH)
+    dog = Dog(
+        brain=brain, body=body, world_ground=WORLD_GROUND, world_width=WORLD_WIDTH
+    )
 
     world = World(screen=screen, dog=dog, fps=WORLD_FPS)
     world.start()

@@ -23,7 +23,7 @@ class Dog:
     """
 
     def __init__(
-        self, brain: Brain, body: Body, world_floor: int, world_width: int
+        self, brain: Brain, body: Body, world_ground: int, world_width: int
     ) -> None:
         self.brain: Brain = brain
         self.body: Body = body
@@ -32,7 +32,7 @@ class Dog:
         self.image: pg.Surface = self.body.get_image(brain=self.brain)
         self.rect = self.image.get_rect()
         self.x = float(random.randint(0, self.world_width - self.rect.width))
-        self.rect.bottomleft = (int(self.x), world_floor)
+        self.rect.bottomleft = (int(self.x), world_ground)
         self.clone: BoundaryClone = BoundaryClone(self)
 
     @property
