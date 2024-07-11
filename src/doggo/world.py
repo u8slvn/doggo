@@ -2,14 +2,18 @@ from __future__ import annotations
 
 import time
 
+from typing import TYPE_CHECKING
+
 import pygame as pg
 
 from loguru import logger
 
-from doggo.config import WORLD_GROUND
 from doggo.dog.dog import Dog
-from doggo.landscape import Ground
 from doggo.ui import DraggableWindow
+
+
+if TYPE_CHECKING:
+    from doggo.landscape import Landscape
 
 
 class World:
@@ -18,7 +22,9 @@ class World:
     It contains the game loop and the main logic of the game.
     """
 
-    def __init__(self, screen: pg.Surface, dog: Dog, fps: int = 60) -> None:
+    def __init__(
+        self, screen: pg.Surface, dog: Dog, landscape: Landscape, fps: int = 60
+    ) -> None:
         self.draggable_window: DraggableWindow = DraggableWindow()
         self.screen: pg.Surface = screen
         self.fps: int = fps
@@ -27,7 +33,7 @@ class World:
         self.dt: float = 0.0
         self.prev_time: float = time.time()
         self.dog: Dog = dog
-        self.ground = Ground(height=WORLD_GROUND)
+        self.landscape = landscape
 
     def process_inputs(self) -> None:
         """Process the inputs of the world."""
@@ -51,14 +57,14 @@ class World:
         """Render the world."""
         self.screen.fill((135, 206, 235))
         self.dog.render(surface=self.screen)
-        self.ground.render(surface=self.screen)
+        self.landscape.render(surface=self.screen)
         pg.display.update()
 
     def start(self) -> None:
         """Start the world"""
-        logger.info("World started. Doggo is awake.")
+        logger.info("World started. Dog is awake.")
         logger.info(
-            f"Doggo parachuted in the world and start to {self.dog.current_state} "
+            f"Dog parachuted in the world and start to {self.dog.current_state} "
             f"for {self.dog.brain.current_state.countdown}s."
         )
 
@@ -77,5 +83,5 @@ class World:
     def stop() -> None:
         """Stop the world."""
         pg.quit()
-        logger.info("World stopped. Doggo is going to sleep.")
+        logger.info("World stopped. Dog is going to sleep.")
         exit()

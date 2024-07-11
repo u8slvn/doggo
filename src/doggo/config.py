@@ -1,21 +1,25 @@
 from __future__ import annotations
 
-from doggo.dog.brain import Direction
-from doggo.dog.brain import State
-from doggo.dog.brain import StateID
+from typing import TYPE_CHECKING
 
+from doggo.dog import StateID
+from doggo.dog.brain import Direction
+
+
+if TYPE_CHECKING:
+    from doggo.dog.brain import StateConfig
 
 # --- World configuration ---
 
 WORLD_FPS = 60
 WORLD_WIDTH = 350
 WORLD_HEIGHT = 100
-WORLD_GROUND_HEIGHT = 15  # The size of the floor in the world.
+WORLD_GROUND_HEIGHT = 15  # The size of the ground.
 WORLD_GROUND = (
     WORLD_HEIGHT - WORLD_GROUND_HEIGHT
-)  # The floor level in the world, where the doggo can walk on.
+)  # The ground level in the world, where the dog can walk on.
 
-# --- Doggo sprite sheet configuration ---
+# --- Dog sprite sheet configuration ---
 
 SPRITE_SIZE = (9, 8)  # rows, columns in the sprite sheet
 SPRITE_DIRECTION = Direction.LEFT  # Default direction of the sprite
@@ -36,12 +40,12 @@ SPRITE_CONF_PER_STATE = {
     StateID.SLEEP: (4, 8),
 }
 
-# --- Doggo states configuration ---
+# --- Dog states configuration ---
 
-DOGGO_STATES = [
-    State(
-        id=StateID.IDLE,
-        transitions={
+DOG_STATES: list[StateConfig] = [
+    {
+        "id": StateID.IDLE,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -56,12 +60,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(2, 10),
-        speed=0,
-    ),
-    State(
-        id=StateID.IDLE_AND_BARK,
-        transitions={
+        "time_range": (2, 10),
+        "speed": 0,
+    },
+    {
+        "id": StateID.IDLE_AND_BARK,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.15,
@@ -76,12 +80,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(2, 10),
-        speed=0,
-    ),
-    State(
-        id=StateID.WALK,
-        transitions={
+        "time_range": (2, 10),
+        "speed": 0,
+    },
+    {
+        "id": StateID.WALK,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -96,11 +100,11 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(2, 20),
-    ),
-    State(
-        id=StateID.WALK_AND_BARK,
-        transitions={
+        "time_range": (2, 20),
+    },
+    {
+        "id": StateID.WALK_AND_BARK,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -115,11 +119,11 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.0,
         },
-        time_range=(3, 10),
-    ),
-    State(
-        id=StateID.SIT,
-        transitions={
+        "time_range": (3, 10),
+    },
+    {
+        "id": StateID.SIT,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.05,
             StateID.WALK: 0.1,
@@ -134,12 +138,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 15),
-        speed=0,
-    ),
-    State(
-        id=StateID.SIT_AND_BARK,
-        transitions={
+        "time_range": (5, 15),
+        "speed": 0,
+    },
+    {
+        "id": StateID.SIT_AND_BARK,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.05,
             StateID.WALK: 0.1,
@@ -154,12 +158,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 10),
-        speed=0,
-    ),
-    State(
-        id=StateID.LIE_DOWN,
-        transitions={
+        "time_range": (5, 10),
+        "speed": 0,
+    },
+    {
+        "id": StateID.LIE_DOWN,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -174,12 +178,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.1,
         },
-        time_range=(10, 20),
-        speed=0,
-    ),
-    State(
-        id=StateID.LIE_DOWN_AND_BARK,
-        transitions={
+        "time_range": (10, 20),
+        "speed": 0,
+    },
+    {
+        "id": StateID.LIE_DOWN_AND_BARK,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -194,12 +198,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.1,
         },
-        time_range=(5, 10),
-        speed=0,
-    ),
-    State(
-        id=StateID.RUN,
-        transitions={
+        "time_range": (5, 10),
+        "speed": 0,
+    },
+    {
+        "id": StateID.RUN,
+        "transitions": {
             StateID.IDLE: 0.35,
             StateID.IDLE_AND_BARK: 0.05,
             StateID.WALK: 0.3,
@@ -214,12 +218,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.0,
         },
-        time_range=(3, 15),
-        speed=100,
-    ),
-    State(
-        id=StateID.RUN_AND_BARK,
-        transitions={
+        "time_range": (3, 15),
+        "speed": 100,
+    },
+    {
+        "id": StateID.RUN_AND_BARK,
+        "transitions": {
             StateID.IDLE: 0.35,
             StateID.IDLE_AND_BARK: 0.05,
             StateID.WALK: 0.3,
@@ -234,12 +238,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.0,
         },
-        time_range=(3, 15),
-        speed=100,
-    ),
-    State(
-        id=StateID.STAND,
-        transitions={
+        "time_range": (3, 15),
+        "speed": 100,
+    },
+    {
+        "id": StateID.STAND,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -254,12 +258,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(3, 10),
-        speed=0,
-    ),
-    State(
-        id=StateID.STAND_AND_BARK,
-        transitions={
+        "time_range": (3, 10),
+        "speed": 0,
+    },
+    {
+        "id": StateID.STAND_AND_BARK,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.1,
@@ -274,12 +278,12 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.05,
             StateID.SLEEP: 0.1,
         },
-        time_range=(3, 10),
-        speed=0,
-    ),
-    State(
-        id=StateID.SLEEP,
-        transitions={
+        "time_range": (3, 10),
+        "speed": 0,
+    },
+    {
+        "id": StateID.SLEEP,
+        "transitions": {
             StateID.IDLE: 0.1,
             StateID.IDLE_AND_BARK: 0.1,
             StateID.WALK: 0.0,
@@ -294,8 +298,8 @@ DOGGO_STATES = [
             StateID.STAND_AND_BARK: 0.0,
             StateID.SLEEP: 0.0,
         },
-        time_range=(10, 30),
-        animation_time_rate=0.2,
-        speed=0,
-    ),
+        "time_range": (10, 30),
+        "animation_time_rate": 0.2,
+        "speed": 0,
+    },
 ]

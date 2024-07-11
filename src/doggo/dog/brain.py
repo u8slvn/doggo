@@ -7,45 +7,16 @@ from dataclasses import dataclass
 from dataclasses import field
 from enum import IntEnum
 from enum import auto
-
-import numpy as np
+from typing import NotRequired
+from typing import TypedDict
 
 from loguru import logger
 
-
-class StateID(IntEnum):
-    """The possible states of the doggo."""
-
-    IDLE = 0
-    IDLE_AND_BARK = auto()
-    WALK = auto()
-    WALK_AND_BARK = auto()
-    SIT = auto()
-    SIT_AND_BARK = auto()
-    LIE_DOWN = auto()
-    LIE_DOWN_AND_BARK = auto()
-    RUN = auto()
-    RUN_AND_BARK = auto()
-    STAND = auto()
-    STAND_AND_BARK = auto()
-    SLEEP = auto()
-
-    @classmethod
-    def random(cls) -> StateID:
-        """Return a random state."""
-        return random.choice(list(cls))
-
-    @classmethod
-    def random_with_probs(cls, p: list[float]) -> StateID:
-        """Return a random state based on the given probabilities."""
-        return cls(np.random.choice(list(cls), p=p))
-
-    def __str__(self) -> str:
-        return self.name.replace("_", " ")
+from doggo.dog import StateID
 
 
 class Direction(IntEnum):
-    """The possible directions of the doggo."""
+    """The possible directions of the dog."""
 
     LEFT = 0
     RIGHT = auto()
@@ -56,9 +27,23 @@ class Direction(IntEnum):
         return cls(random.getrandbits(1))
 
 
+StateConfig = TypedDict(
+    "StateConfig",
+    {
+        "id": StateID,
+        "transitions": dict[StateID, float],
+        "time_range": tuple[int, int],
+        "countdown": NotRequired[int],
+        "direction": NotRequired[Direction],
+        "speed": NotRequired[int],
+        "animation_time_rate": NotRequired[float],
+    },
+)
+
+
 @dataclass
 class State:
-    """A state of the doggo."""
+    """A state of the dog."""
 
     _clock: float = field(init=False, default_factory=time.time)
     id: StateID
@@ -107,7 +92,7 @@ class State:
 
 
 class Brain:
-    """The brain of the doggo.
+    """The brain of the dog.
 
     The brain is responsible for managing the states and the transitions between them.
     It's a simple state machine that changes the state based on the transition
@@ -136,7 +121,7 @@ class Brain:
         """Change the current state of the brain."""
         self.current_state = self._states[state_id]()
         logger.info(
-            f"Doggo brain decided to {self.current_state.id} for "
+            f"Dog's brain decided to {self.current_state.id} for "
             f"{self.current_state.countdown}s."
         )
 

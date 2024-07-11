@@ -2,18 +2,11 @@ from __future__ import annotations
 
 import pygame as pg
 
-from doggo.config import DOGGO_STATES
-from doggo.config import SPRITE_CONF_PER_STATE
-from doggo.config import SPRITE_DIRECTION
-from doggo.config import SPRITE_SIZE
 from doggo.config import WORLD_FPS
-from doggo.config import WORLD_GROUND
 from doggo.config import WORLD_HEIGHT
 from doggo.config import WORLD_WIDTH
-from doggo.dog.body import Body
-from doggo.dog.body import Fur
-from doggo.dog.brain import Brain
-from doggo.dog.dog import Dog
+from doggo.prepare import build_dog
+from doggo.prepare import build_landscape
 from doggo.world import World
 
 
@@ -30,18 +23,15 @@ def run() -> None:
     window = pg.Window.from_display_module()
     window.always_on_top = True
 
-    brain = Brain(states=DOGGO_STATES)
-    body = Body(
-        fur=Fur.random(),
-        sprite_size=SPRITE_SIZE,
-        default_direction=SPRITE_DIRECTION,
-        sprite_conf_per_state=SPRITE_CONF_PER_STATE,
-    )
-    dog = Dog(
-        brain=brain, body=body, world_ground=WORLD_GROUND, world_width=WORLD_WIDTH
-    )
+    dog = build_dog()
+    landscape = build_landscape()
 
-    world = World(screen=screen, dog=dog, fps=WORLD_FPS)
+    world = World(
+        screen=screen,
+        dog=dog,
+        landscape=landscape,
+        fps=WORLD_FPS,
+    )
     world.start()
 
 

@@ -12,8 +12,8 @@ from typing import Iterator
 import pygame as pg
 
 from doggo import ASSETS_PATH
+from doggo.dog import StateID
 from doggo.dog.brain import Direction
-from doggo.dog.brain import StateID
 
 
 if TYPE_CHECKING:
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
 
 class Fur(IntEnum):
-    """The possible fur colors of the doggo."""
+    """The possible fur colors of the dog."""
 
     DARK_BROWN = 0
     LIGHT_BROWN = auto()
@@ -45,9 +45,9 @@ class Fur(IntEnum):
 
 
 class Body:
-    """The body of the doggo.
+    """The body of the dog.
 
-    Manage the sprite sheet of the doggo based on the fur color.
+    Manage the sprite sheet of the dog based on the fur color.
     """
 
     def __init__(
@@ -57,7 +57,7 @@ class Body:
         default_direction: Direction,
         sprite_conf_per_state: dict[StateID, tuple[int, int]],
     ) -> None:
-        """Initialize the body of the doggo.
+        """Initialize the body of the dog.
 
         Fur color is used to load the correct sprite sheet.
         Default direction is used to set the initial direction sprite.
@@ -91,7 +91,7 @@ class Body:
                     self.images[state][direction].append(sprite)
 
     def get_image(self, brain: Brain) -> pg.Surface:
-        """Return the pose of the doggo based on the state and the direction."""
+        """Return the pose of the dog based on the state and the direction."""
         state = brain.current_state.id
         direction = brain.current_state.direction
 

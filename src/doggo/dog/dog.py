@@ -4,9 +4,9 @@ import random
 
 from typing import TYPE_CHECKING
 
+from doggo.dog import StateID
 from doggo.dog.body import Body
 from doggo.dog.brain import Direction
-from doggo.dog.brain import StateID
 
 
 if TYPE_CHECKING:
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 class Dog:
     """The doggo itself.
 
-    It has a brain and a body. The first one is used to control the doggo's behavior,
+    It has a brain and a body. The first one is used to control the dog's behavior,
     the second one is used to display it.
     """
 
@@ -37,21 +37,21 @@ class Dog:
 
     @property
     def direction(self) -> Direction:
-        """ "The current direction of the doggo."""
+        """ "The current direction of the dog."""
         return self.brain.current_state.direction
 
     @property
     def speed(self) -> int:
-        """The current speed of the doggo."""
+        """The current speed of the dog."""
         return self.brain.current_state.speed
 
     @property
     def current_state(self) -> StateID:
-        """The current state of the doggo."""
+        """The current state of the dog."""
         return self.brain.current_state.id
 
     def update(self, dt: float) -> None:
-        """Update the doggo."""
+        """Update the dog."""
         self.brain.update()
 
         # Manage the doggo's animation.
@@ -75,10 +75,10 @@ class Dog:
         else:
             self.x += self.speed * dt
         self.rect.x = int(self.x)
-        self.clone.update()  # Don't forget to update the clone after the doggo.
+        self.clone.update()  # Don't forget to update the clone after the dog.
 
     def render(self, surface: pg.Surface) -> None:
-        """Move the doggo."""
+        """Render the dog."""
         surface.blit(self.image, dest=self.rect)
         self.clone.render(surface=surface)
 
@@ -86,7 +86,7 @@ class Dog:
 class BoundaryClone:
     """Boundary clone.
 
-    Doggo clone that appears on the opposite side of the world when the doggo crosses
+    Dog clone that appears on the opposite side of the world when the dog crosses
     a boundary.
     """
 
