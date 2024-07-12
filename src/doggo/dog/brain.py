@@ -117,6 +117,15 @@ class Brain:
         )
         self.current_state: State = self._states[initial_state_id]()
 
+    @classmethod
+    def from_config(
+        cls, state_configs: list[StateConfig], default_state_id: None | StateID = None
+    ) -> Brain:
+        """Create a brain from a configuration list."""
+        states = [State(**state_config) for state_config in state_configs]
+
+        return cls(states=states, default_state_id=default_state_id)
+
     def change_state(self, state_id: StateID) -> None:
         """Change the current state of the brain."""
         self.current_state = self._states[state_id]()

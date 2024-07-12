@@ -91,7 +91,7 @@ class Body:
                     self.images[state][direction].append(sprite)
 
     def get_image(self, brain: Brain) -> pg.Surface:
-        """Return the pose of the dog based on the state and the direction."""
+        """Return the pose of the dog based on the brain config."""
         state = brain.current_state.id
         direction = brain.current_state.direction
 

@@ -9,7 +9,7 @@ def pygame():
     """Start and stop pygame instance for all tests."""
 
     pg.init()
-    pg.display.set_mode((800, 600))
+    pg.display.set_mode((1, 1))
 
     yield
 

@@ -1,12 +1,10 @@
 # Prepare module is responsible for building the World dependencies.
 from __future__ import annotations
 
+from doggo import config
 from doggo.dog.body import Body
 from doggo.dog.body import Fur
-
-from doggo import config
 from doggo.dog.brain import Brain
-from doggo.dog.brain import State
 from doggo.dog.dog import Dog
 from doggo.landscape import Ground
 from doggo.landscape import Landscape
@@ -14,9 +12,7 @@ from doggo.landscape import Landscape
 
 def build_dog() -> Dog:
     """Build the dog."""
-    states = [State(**state_config) for state_config in config.DOG_STATES]
-
-    brain = Brain(states=states)
+    brain = Brain.from_config(state_configs=config.DOG_STATES)
     body = Body(
         fur=Fur.random(),
         sprite_size=config.SPRITE_SIZE,
