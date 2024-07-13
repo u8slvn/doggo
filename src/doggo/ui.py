@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 import pygame as pg
 
 
@@ -9,8 +11,9 @@ class DraggableWindow:
     Allow the user to drag the window by clicking and dragging it.
     """
 
-    def __init__(self) -> None:
-        self.start_position = pg.Vector2(pg.display.get_window_position())
+    def __init__(self, window: pg.window.Window) -> None:
+        self.window: pg.window.Window = window
+        self.start_position = pg.Vector2(self.window.position)
         self.dragged = False
 
     def process_event(self, event: pg.event.Event) -> None:
@@ -22,11 +25,12 @@ class DraggableWindow:
 
         elif event.type == pg.MOUSEMOTION:
             if self.dragged:
-                window_position = pg.Vector2(pg.display.get_window_position())
+                window_position = pg.Vector2(self.window.position)
                 mouse_position = pg.Vector2(pg.mouse.get_pos())
 
-                pg.display.set_window_position(
-                    window_position + mouse_position - self.start_position
+                self.window.position = cast(
+                    tuple[int, int],
+                    window_position + mouse_position - self.start_position,
                 )
 
         elif event.type == pg.MOUSEBUTTONUP:

@@ -2,18 +2,14 @@ from __future__ import annotations
 
 import time
 
-from typing import TYPE_CHECKING
-
 import pygame as pg
 
 from loguru import logger
 
 from doggo.dog.dog import Dog
+from doggo.prepare import build_dog
+from doggo.prepare import build_landscape
 from doggo.ui import DraggableWindow
-
-
-if TYPE_CHECKING:
-    from doggo.landscape import Landscape
 
 
 class World:
@@ -22,18 +18,18 @@ class World:
     It contains the game loop and the main logic of the game.
     """
 
-    def __init__(
-        self, screen: pg.Surface, dog: Dog, landscape: Landscape, fps: int = 60
-    ) -> None:
-        self.draggable_window: DraggableWindow = DraggableWindow()
-        self.screen: pg.Surface = screen
+    def __init__(self, title: str, size: tuple[int, int], fps: int = 60) -> None:
+        self.window: pg.window.Window = pg.window.Window(title=title, size=size)
+        self.screen: pg.Surface = self.window.get_surface()
+        self.draggable: DraggableWindow = DraggableWindow(window=self.window)
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
         self.running: bool = False
         self.dt: float = 0.0
         self.prev_time: float = time.time()
-        self.dog: Dog = dog
-        self.landscape = landscape
+
+        self.dog: Dog = build_dog()
+        self.landscape = build_landscape()
 
     def process_inputs(self) -> None:
         """Process the inputs of the world."""
@@ -41,7 +37,7 @@ class World:
             if event.type == pg.QUIT:
                 self.running = False
 
-            self.draggable_window.process_event(event=event)
+            self.draggable.process_event(event=event)
 
     def get_dt(self) -> None:
         """Calculate the delta time."""
@@ -58,7 +54,7 @@ class World:
         self.screen.fill((135, 206, 235))
         self.dog.render(surface=self.screen)
         self.landscape.render(surface=self.screen)
-        pg.display.update()
+        self.window.flip()
 
     def start(self) -> None:
         """Start the world"""

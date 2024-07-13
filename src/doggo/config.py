@@ -11,6 +11,7 @@ if TYPE_CHECKING:
 
 # --- World configuration ---
 
+WORLD_TITLE = "Doggo"
 WORLD_FPS = 60
 WORLD_WIDTH = 350
 WORLD_HEIGHT = 100
