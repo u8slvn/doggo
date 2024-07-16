@@ -3,8 +3,6 @@ from __future__ import annotations
 import random
 import time
 
-from dataclasses import dataclass
-from dataclasses import field
 from enum import IntEnum
 from enum import auto
 from typing import NotRequired
@@ -41,29 +39,38 @@ StateConfig = TypedDict(
 )
 
 
-@dataclass
 class State:
     """A state of the dog."""
 
-    _clock: float = field(init=False, default_factory=time.time)
-    id: StateID
-    transitions: dict[StateID, float]
-    time_range: tuple[int, int]
-    countdown: int = 0
-    direction: Direction = field(default_factory=Direction.random)
-    speed: int = 50
-    animation_time_rate: float = 0.1
-
-    def __post_init__(self) -> None:
-        assert len(self.transitions) == len(StateID), (
-            f"The number of transitions of state {self.id} must be equal "
+    def __init__(
+        self,
+        id: StateID,
+        transitions: dict[StateID, float],
+        time_range: tuple[int, int],
+        countdown: int = 0,
+        direction: Direction | None = None,
+        speed: int = 50,
+        animation_time_rate: float = 0.1,
+    ) -> None:
+        assert len(transitions) == len(StateID), (
+            f"The number of transitions of state {id} must be equal "
             f"to the number of states"
         )
-        assert sum(self.transitions.values()) == 1, (
-            f"The sum of the transition probabilities of state {self.id} "
+        assert sum(transitions.values()) == 1, (
+            f"The sum of the transition probabilities of state {id} "
             f"must be equal to 1"
         )
 
+        self._clock: float = time.time()
+        self.id: StateID = id
+        # We want to be sure that the order of the transitions is the same as the one
+        # of the StateID enum.
+        self.transitions: list[float] = [transitions[state_id] for state_id in StateID]
+        self.time_range: tuple[int, int] = time_range
+        self.countdown: int = countdown
+        self.direction: Direction = direction or Direction.random()
+        self.speed: int = speed
+        self.animation_time_rate: float = animation_time_rate
         self.wind_up()
 
     def __call__(self) -> State:
@@ -84,11 +91,7 @@ class State:
 
     def get_next_state_id(self) -> StateID:
         """Return the next state based on the transition probabilities."""
-        # We want to be sure that the order of the transitions is the same as the one
-        # of the StateID.
-        transition_probs = [self.transitions[state_id] for state_id in StateID]
-
-        return StateID.random_with_probs(transition_probs)
+        return StateID.random_with_probs(self.transitions)
 
 
 class Brain:
