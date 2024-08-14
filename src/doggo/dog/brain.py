@@ -87,7 +87,7 @@ class State:
     def wind_up(self) -> None:
         """Wind up the state for a new iteration."""
         self._clock = time.time()
-        self.countdown = random.randint(*self.time_range)
+        self.countdown = random.randint(*self.time_range)  # nosec
 
     def get_next_state_id(self) -> StateID:
         """Return the next state based on the transition probabilities."""

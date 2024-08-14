@@ -31,7 +31,7 @@ class Dog:
         self.current_animation_time_rate: float = 0.0
         self.image: pg.Surface = self.body.get_image(brain=self.brain)
         self.rect = self.image.get_rect()
-        self.x = float(random.randint(0, self.world_width - self.rect.width))
+        self.x = float(random.randint(0, self.world_width - self.rect.width))  # nosec
         self.rect.bottomleft = (int(self.x), world_ground)
         self.clone: BoundaryClone = BoundaryClone(self)
 

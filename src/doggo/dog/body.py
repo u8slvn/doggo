@@ -41,7 +41,7 @@ class Fur(IntEnum):
     @classmethod
     def random(cls) -> Fur:
         """Return a random fur color."""
-        return random.choice(list(cls))
+        return random.choice(list(cls))  # nosec
 
 
 class Body:

@@ -28,7 +28,7 @@ class StateID(IntEnum):
     @classmethod
     def random(cls) -> StateID:
         """Return a random state."""
-        return random.choice(list(cls))
+        return random.choice(list(cls))  # nosec
 
     @classmethod
     def random_with_probs(cls, p: list[float]) -> StateID:
