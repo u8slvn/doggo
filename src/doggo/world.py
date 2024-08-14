@@ -61,9 +61,9 @@ class World:
     def render(self) -> None:
         """Render the world."""
         self.screen.fill((135, 206, 235))
-        self.bg_landscape.render(surface=self.screen)
+        self.bg_landscape.draw(surface=self.screen)
         self.dog.render(surface=self.screen)
-        self.fg_landscape.render(surface=self.screen)
+        self.fg_landscape.draw(surface=self.screen)
         self.window.flip()
 
     def start(self) -> None:

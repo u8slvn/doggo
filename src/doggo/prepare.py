@@ -1,6 +1,8 @@
 # Prepare module is responsible for building the World dependencies.
 from __future__ import annotations
 
+import pygame as pg
+
 from doggo import config
 from doggo.dog.body import Body
 from doggo.dog.body import Fur
@@ -28,17 +30,17 @@ def build_dog() -> Dog:
     )
 
 
-def build_bg_landscape() -> Landscape:
+def build_bg_landscape() -> pg.sprite.Group[Landscape]:
     """Build the background landscape."""
     mountain = StaticLandscape(topleft=(0, 0), path="landscape/mountain.png")
 
-    return Landscape(items=[mountain])
+    return pg.sprite.Group([mountain])
 
 
-def build_fg_landscape() -> Landscape:
+def build_fg_landscape() -> pg.sprite.Group[Landscape]:
     """Build the foreground landscape."""
     ground = StaticLandscape(
         topleft=(0, config.WORLD_GROUND), path="landscape/ground.png"
     )
 
-    return Landscape(items=[ground])
+    return pg.sprite.Group([ground])
