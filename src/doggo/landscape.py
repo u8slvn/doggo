@@ -32,13 +32,13 @@ class Landscape(LandscapeBase):
             item.render(surface)
 
 
-class Ground(LandscapeBase):
-    """The ground of the world."""
+class StaticLandscape(LandscapeBase):
+    """Abstract class for static landscape."""
 
-    def __init__(self, height: int, path: str = "landscape/ground.png") -> None:
-        self.height = height
-        self._surface = pg.image.load(ASSETS_PATH.joinpath(path)).convert()
+    def __init__(self, topleft: tuple[int, int], path: str) -> None:
+        self.topleft = topleft
+        self._surface = pg.image.load(ASSETS_PATH.joinpath(path)).convert_alpha()
 
     def render(self, surface: pg.Surface) -> None:
         """Render the ground."""
-        surface.blit(self._surface, (0, self.height))
+        surface.blit(self._surface, self.topleft)

@@ -6,8 +6,8 @@ from doggo.dog.body import Body
 from doggo.dog.body import Fur
 from doggo.dog.brain import Brain
 from doggo.dog.dog import Dog
-from doggo.landscape import Ground
 from doggo.landscape import Landscape
+from doggo.landscape import StaticLandscape
 
 
 def build_dog() -> Dog:
@@ -28,8 +28,17 @@ def build_dog() -> Dog:
     )
 
 
-def build_landscape() -> Landscape:
-    """Build the landscape."""
-    ground = Ground(height=config.WORLD_GROUND)
+def build_bg_landscape() -> Landscape:
+    """Build the background landscape."""
+    mountain = StaticLandscape(topleft=(0, 0), path="landscape/mountain.png")
+
+    return Landscape(items=[mountain])
+
+
+def build_fg_landscape() -> Landscape:
+    """Build the foreground landscape."""
+    ground = StaticLandscape(
+        topleft=(0, config.WORLD_GROUND), path="landscape/ground.png"
+    )
 
     return Landscape(items=[ground])
