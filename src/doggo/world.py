@@ -19,7 +19,12 @@ class World:
     """
 
     def __init__(self, title: str, size: tuple[int, int], fps: int = 60) -> None:
-        self.window: pg.window.Window = pg.window.Window(title=title, size=size)
+        self.window: pg.window.Window = pg.window.Window(
+            title=title,
+            size=size,
+            borderless=True,
+            always_on_top=True,
+        )
         self.screen: pg.Surface = self.window.get_surface()
         self.draggable: DraggableWindow = DraggableWindow(window=self.window)
         self.fps: int = fps
@@ -34,7 +39,9 @@ class World:
     def process_inputs(self) -> None:
         """Process the inputs of the world."""
         for event in pg.event.get():
-            if event.type == pg.QUIT:
+            if event.type == pg.QUIT or (
+                event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE
+            ):
                 self.running = False
 
             self.draggable.process_event(event=event)
