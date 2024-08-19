@@ -11,6 +11,8 @@ from typing import Iterator
 
 import pygame as pg
 
+from loguru import logger
+
 from doggo import ASSETS_PATH
 from doggo.dog import StateID
 from doggo.dog.brain import Direction
@@ -41,7 +43,10 @@ class Fur(IntEnum):
     @classmethod
     def random(cls) -> Fur:
         """Return a random fur color."""
-        return random.choice(list(cls))  # nosec
+        fur_color = random.choice(list(cls))  # nosec
+        logger.debug(f"Dog fur color: {fur_color.name}")
+
+        return fur_color
 
 
 class Body:

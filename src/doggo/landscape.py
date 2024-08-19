@@ -6,6 +6,8 @@ from enum import IntEnum
 
 import pygame as pg
 
+from loguru import logger
+
 from doggo import ASSETS_PATH
 from doggo import config
 
@@ -18,7 +20,10 @@ class Biome(IntEnum):
     @classmethod
     def random(cls) -> Biome:
         """Return a random fur color."""
-        return random.choice(list(cls))  # nosec
+        biome_type = random.choice(list(cls))  # nosec
+        logger.debug(f"Landscape biome: {biome_type.name}")
+
+        return biome_type
 
 
 class LandscapeLayer:
