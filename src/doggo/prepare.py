@@ -6,6 +6,7 @@ from doggo.dog.body import Body
 from doggo.dog.body import Fur
 from doggo.dog.brain import Brain
 from doggo.dog.dog import Dog
+from doggo.landscape import Biome
 from doggo.landscape import Landscape
 
 
@@ -27,11 +28,8 @@ def build_dog() -> Dog:
     )
 
 
-def build_bg_landscape() -> Landscape:
+def build_landscape() -> Landscape:
     """Build the background landscape."""
-    return Landscape(topleft=(0, 0), image="mountain.png")
+    biome = Biome.random()
 
-
-def build_fg_landscape() -> Landscape:
-    """Build the foreground landscape."""
-    return Landscape(topleft=(0, config.WORLD_GROUND), image="ground.png")
+    return Landscape(biome=biome)

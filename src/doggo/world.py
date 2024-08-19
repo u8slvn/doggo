@@ -7,9 +7,8 @@ import pygame as pg
 from loguru import logger
 
 from doggo.dog.dog import Dog
-from doggo.prepare import build_bg_landscape
 from doggo.prepare import build_dog
-from doggo.prepare import build_fg_landscape
+from doggo.prepare import build_landscape
 from doggo.ui import DraggableWindow
 
 
@@ -34,9 +33,8 @@ class World:
         self.dt: float = 0.0
         self.prev_time: float = time.time()
 
-        self.bg_landscape = build_bg_landscape()
+        self.landscape = build_landscape()
         self.dog: Dog = build_dog()
-        self.fg_landscape = build_fg_landscape()
 
     def process_inputs(self) -> None:
         """Process the inputs of the world."""
@@ -61,9 +59,9 @@ class World:
     def render(self) -> None:
         """Render the world."""
         self.screen.fill((135, 206, 235))
-        self.bg_landscape.draw(screen=self.screen)
+        self.landscape.background.draw(screen=self.screen)
         self.dog.draw(screen=self.screen)
-        self.fg_landscape.draw(screen=self.screen)
+        self.landscape.foreground.draw(screen=self.screen)
         self.window.flip()
 
     def start(self) -> None:
