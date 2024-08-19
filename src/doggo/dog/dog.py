@@ -77,10 +77,10 @@ class Dog:
         self.rect.x = int(self.x)
         self.clone.update()  # Don't forget to update the clone after the dog.
 
-    def render(self, surface: pg.Surface) -> None:
+    def draw(self, screen: pg.Surface) -> None:
         """Render the dog."""
-        surface.blit(self.image, dest=self.rect)
-        self.clone.render(surface=surface)
+        screen.blit(self.image, dest=self.rect)
+        self.clone.draw(screen=screen)
 
 
 class BoundaryClone:
@@ -106,7 +106,7 @@ class BoundaryClone:
         else:
             self.visible = False
 
-    def render(self, surface: pg.Surface) -> None:
+    def draw(self, screen: pg.Surface) -> None:
         """Render the clone."""
         if self.visible:
-            surface.blit(self.dog.image, dest=self.rect)
+            screen.blit(self.dog.image, dest=self.rect)
