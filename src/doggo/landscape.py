@@ -9,7 +9,6 @@ import pygame as pg
 from loguru import logger
 
 from doggo import ASSETS_PATH
-from doggo import config
 
 
 class Biome(IntEnum):
@@ -31,7 +30,7 @@ class LandscapeLayer:
 
     path = ASSETS_PATH.joinpath("landscape")
 
-    def __init__(self, topleft: tuple[int, int], image: str) -> None:
+    def __init__(self, image: str, topleft: tuple[int, int] = (0, 0)) -> None:
         image_path = self.path.joinpath(image)
         self.image = pg.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect(topleft=topleft)
@@ -48,9 +47,5 @@ class Landscape:
     fg_suffix = "_fg.png"
 
     def __init__(self, biome: Biome) -> None:
-        self.background = LandscapeLayer(
-            topleft=(0, 0), image=f"{biome:02d}{self.bg_suffix}"
-        )
-        self.foreground = LandscapeLayer(
-            topleft=(0, config.WORLD_GROUND), image=f"{biome:02d}{self.fg_suffix}"
-        )
+        self.background = LandscapeLayer(image=f"{biome:02d}{self.bg_suffix}")
+        self.foreground = LandscapeLayer(image=f"{biome:02d}{self.fg_suffix}")
