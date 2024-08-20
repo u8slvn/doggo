@@ -21,3 +21,20 @@ def pg_screen_mock(mocker):
     """Mock the pygame screen surface."""
 
     return mocker.Mock(spec=pg.Surface, instance=True)
+
+
+@pytest.fixture
+def pg_window_mock(mocker):
+    """Mock the pygame window."""
+
+    window_mock = mocker.Mock(spec=pg.window.Window, instance=True)
+    window_mock.position = (0, 0)
+
+    return window_mock
+
+
+@pytest.fixture
+def pg_mouse_mock(mocker):
+    """Mock the pygame mouse."""
+
+    return mocker.patch("pygame.mouse", autospec=True)
