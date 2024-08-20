@@ -14,3 +14,10 @@ def pygame():
     yield
 
     pg.quit()
+
+
+@pytest.fixture
+def pg_screen_mock(mocker):
+    """Mock the pygame screen surface."""
+
+    return mocker.Mock(spec=pg.Surface, instance=True)
