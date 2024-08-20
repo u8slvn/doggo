@@ -3,7 +3,12 @@ from __future__ import annotations
 import pygame as pg
 
 from doggo import config
+from doggo.config import COMPILED_ENV
 from doggo.world import World
+
+
+if COMPILED_ENV:
+    import pyi_splash
 
 
 def run() -> None:
@@ -18,6 +23,10 @@ def run() -> None:
         size=(config.WORLD_WIDTH, config.WORLD_HEIGHT),
         fps=config.WORLD_FPS,
     )
+
+    if COMPILED_ENV:
+        pyi_splash.close()
+
     world.start()
 
 

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import sys
+
 from typing import TYPE_CHECKING
 
 from doggo.dog import StateID
@@ -8,6 +10,9 @@ from doggo.dog.brain import Direction
 
 if TYPE_CHECKING:
     from doggo.dog.brain import StateConfig
+
+
+COMPILED_ENV = getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS")
 
 # --- World configuration ---
 

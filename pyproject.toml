@@ -8,11 +8,11 @@ readme = "README.md"
 packages = [{include = "doggo", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.14"
 numpy = "^2.0.0"
 loguru = "^0.7.2"
-freezegun = "^1.5.1"
 pygame-ce = "2.4"
+pyinstaller = "^6.10.0"
 
 [tool.poetry.scripts]
 doggo = "doggo.__main__:run"
@@ -23,6 +23,8 @@ pytest-mock = "^3.14.0"
 pytest-cov = "^5.0.0"
 mypy = "^1.10.0"
 pre-commit = "^3.8.0"
+freezegun = "^1.5.1"
+pyinstaller-versionfile = {version = "^2.1.1", extras = ["build"]}
 
 [build-system]
 requires = ["poetry-core"]
