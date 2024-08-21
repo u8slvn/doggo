@@ -33,7 +33,7 @@ class Dog:
         self.rect = self.image.get_rect()
         self.x = float(random.randint(0, self.world_width - self.rect.width))  # nosec
         self.rect.bottomleft = (int(self.x), world_ground)
-        self.clone: BoundaryClone = BoundaryClone(self)
+        self.clone: _BoundaryClone = _BoundaryClone(self)
 
     @property
     def direction(self) -> Direction:
@@ -65,15 +65,16 @@ class Dog:
 
         # Manage world boundaries.
         if self.rect.right < 0:
-            self.x = self.world_width - self.rect.width
+            self.x = self.world_width - self.rect.width + self.rect.right
         elif self.rect.left > self.world_width:
-            self.x = 0
+            self.x = self.rect.left - self.world_width
 
         # Move the doggo.
         if self.direction == Direction.LEFT:
             self.x -= self.speed * dt
         else:
             self.x += self.speed * dt
+
         self.rect.x = int(self.x)
         self.clone.update()  # Don't forget to update the clone after the dog.
 
@@ -83,7 +84,7 @@ class Dog:
         self.clone.draw(screen=screen)
 
 
-class BoundaryClone:
+class _BoundaryClone:
     """Boundary clone.
 
     Dog clone that appears on the opposite side of the world when the dog crosses
