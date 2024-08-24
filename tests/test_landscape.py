@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pygame as pg
+
 from doggo.landscape import Biome
 from doggo.landscape import LandscapeLayer
 
@@ -12,7 +14,7 @@ def test_get_random_biome():
 
 
 def test_landscape_layer_draw_on_screen(pg_screen_mock):
-    image = f"{Biome.MOUNTAIN:02d}_bg.png"
+    image = pg.Surface((100, 100))
     landscape_layer = LandscapeLayer(image=image, topleft=(10, 10))
 
     landscape_layer.draw(pg_screen_mock)

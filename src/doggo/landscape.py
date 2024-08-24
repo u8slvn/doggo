@@ -9,6 +9,7 @@ import pygame as pg
 from loguru import logger
 
 from doggo import ASSETS_PATH
+from doggo.dog.body import SpriteSheet
 
 
 class Biome(IntEnum):
@@ -28,11 +29,8 @@ class Biome(IntEnum):
 class LandscapeLayer:
     """A layer of the landscape."""
 
-    path = ASSETS_PATH.joinpath("landscape")
-
-    def __init__(self, image: str, topleft: tuple[int, int] = (0, 0)) -> None:
-        image_path = self.path.joinpath(image)
-        self.image = pg.image.load(image_path).convert_alpha()
+    def __init__(self, image: pg.Surface, topleft: tuple[int, int] = (0, 0)) -> None:
+        self.image = image
         self.rect = self.image.get_rect(topleft=topleft)
 
     def draw(self, screen: pg.Surface) -> None:
@@ -43,9 +41,11 @@ class LandscapeLayer:
 class Landscape:
     """The landscape of the game."""
 
-    bg_suffix = "_bg.png"
-    fg_suffix = "_fg.png"
+    path = ASSETS_PATH.joinpath("landscape")
 
     def __init__(self, biome: Biome) -> None:
-        self.background = LandscapeLayer(image=f"{biome:02d}{self.bg_suffix}")
-        self.foreground = LandscapeLayer(image=f"{biome:02d}{self.fg_suffix}")
+        asset_path = self.path.joinpath(f"{biome:02d}.png")
+        sprite_sheet = SpriteSheet(path=asset_path, columns=1, rows=2)
+
+        self.background = LandscapeLayer(image=sprite_sheet.get_sprite((0, 1)))
+        self.foreground = LandscapeLayer(image=sprite_sheet.get_sprite((0, 0)))
