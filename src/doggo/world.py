@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import sys
 import time
+
+from typing import TYPE_CHECKING
 
 import pygame as pg
 
@@ -12,13 +15,19 @@ from doggo.prepare import build_landscape
 from doggo.ui import DraggableWindow
 
 
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
 class World:
     """The world where the dog lives.
 
     It contains the game loop and the main logic of the game.
     """
 
-    def __init__(self, title: str, size: tuple[int, int], fps: int = 60) -> None:
+    def __init__(
+        self, title: str, size: tuple[int, int], icon: Path, fps: int = 60
+    ) -> None:
         self.window: pg.window.Window = pg.window.Window(
             title=title,
             size=size,
@@ -26,6 +35,7 @@ class World:
             always_on_top=True,
         )
         self.screen: pg.Surface = self.window.get_surface()
+        self.window.set_icon(pg.image.load(icon).convert_alpha())
         self.draggable: DraggableWindow = DraggableWindow(window=self.window)
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
@@ -88,4 +98,4 @@ class World:
         """Stop the world."""
         pg.quit()
         logger.info("World stopped. Dog is going to sleep.")
-        exit()
+        sys.exit()

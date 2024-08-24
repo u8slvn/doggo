@@ -61,7 +61,7 @@ def build_pyinstaller_args(
 ) -> list[str]:
     logger.info("Build Pyinstaller args.")
     build_args = []
-    script_entrypoint = f"{PACKAGE_NAME}/__main__.py"
+    script_entrypoint = f"src/{PACKAGE_NAME}/__main__.py"
 
     logger.info(f"entrypoint: {script_entrypoint}")
     build_args += [script_entrypoint]
@@ -75,11 +75,16 @@ def build_pyinstaller_args(
     logger.info(f"Output exe filename: {output_filename}")
     build_args += ["-n", output_filename]
 
-    logger.info(f"Output file icon: {ASSETS_PATH.joinpath('icon-48.png')}")
-    build_args += ["--icon", f"{ASSETS_PATH.joinpath('icon-48.png')}"]
+    logger.info(f"Output file icon: {ASSETS_PATH.joinpath('icon-256.ico')}")
+    build_args += ["--icon", f"{ASSETS_PATH.joinpath('icon-256.ico')}"]
 
     logger.info(f"Add assets folder: {ASSETS_PATH}")
-    build_args += ["--add-data", f"{ASSETS_PATH};./{ASSETS_FOLDER}"]
+    build_args += ["--add-data", f"{ASSETS_PATH}/*;./{ASSETS_FOLDER}"]
+    for items in ASSETS_PATH.glob("**/*"):
+        if not items.is_dir():
+            continue
+        logger.info(f"Add data: {items};./{ASSETS_FOLDER}/{items.name}")
+        build_args += ["--add-data", f"{items};./{ASSETS_FOLDER}/{items.name}"]
 
     logger.info(f"Add splash image: {ASSETS_PATH.joinpath('splash.png')}")
     build_args += ["--splash", f"{ASSETS_PATH.joinpath('splash.png')}"]

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from importlib import metadata
+import sys
+
 from pathlib import Path
 
+from doggo.config import COMPILED_ENV
 
-__app_name__ = "doggo"
-__version__ = metadata.version(__app_name__)
 
-ROOT_PATH = Path(__file__).parent
+if COMPILED_ENV:
+    ROOT_PATH = Path(sys._MEIPASS)  # type: ignore
+elif __file__:
+    ROOT_PATH = Path(__file__).parent
 ASSETS_PATH = ROOT_PATH.joinpath("assets")
