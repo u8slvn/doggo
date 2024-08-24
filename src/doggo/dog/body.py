@@ -30,13 +30,11 @@ class Fur(IntEnum):
     DARK_BROWN = 0
     LIGHT_BROWN = auto()
     GREY = auto()
-    BLUE = auto()
     RED_BROWN = auto()
     WHITE = auto()
     WHITE_WITH_BROWN_SPOTS = auto()
     DARK_BROWN_WITH_GREY_SPOTS = auto()
     WHITE_WITH_GREY_SPOTS = auto()
-    BLUE_WITH_BROWN_SPOTS = auto()
     LIGHT_BROWN_WITH_WHITE_SPOTS = auto()
     ORANGE = auto()
 
