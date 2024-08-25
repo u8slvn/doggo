@@ -22,7 +22,7 @@ def run() -> None:
     world = World(
         title=config.WORLD_TITLE,
         size=(config.WORLD_WIDTH, config.WORLD_HEIGHT),
-        icon=ASSETS_PATH.joinpath("icon-256.png"),
+        icon=ASSETS_PATH.joinpath("icon-42.png"),
         fps=config.WORLD_FPS,
     )
 
