@@ -17,7 +17,7 @@ COMPILED_ENV = getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS")
 # --- World configuration ---
 
 WORLD_TITLE = "Doggo"
-WORLD_FPS = 60
+WORLD_FPS = 30
 WORLD_WIDTH = 350
 WORLD_HEIGHT = 100
 WORLD_GROUND_HEIGHT = 15  # The size of the ground.

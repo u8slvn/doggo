@@ -23,3 +23,12 @@ tasks:
     cmds:
     - pytest tests/
     - mypy
+
+  bump-version:
+    desc: Bump version, define target version with "VERSION=*.*.*".
+    silent: true
+    vars:
+      VERSION: '{{.VERSION}}'
+    cmds:
+    - sed -i "s/^\(version = \"\)\(.\)*\"/\1{{.VERSION}}\"/" pyproject.toml
+    - echo "Version replaced by {{.VERSION}} in 'pyproject.toml'"
