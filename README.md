@@ -1,4 +1,8 @@
-# 🐕 doggo
+<p align="center">
+  <a href="#readme" align="center">
+      <img alt="Until Zero - タイマー | logo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/src/doggo/assets/splash.png">
+  </a>
+</p>
 <p align="center">
     <a href="https://github.com/u8slvn/doggo/releases"><img alt="GitHub tag (with filter)" src="https://img.shields.io/github/v/release/u8slvn/doggo"></a>
     <img src="https://img.shields.io/badge/python-3.12-blue" alt="Pypthon version">
@@ -8,18 +12,52 @@
     <a href="https://github.com/u8slvn/doggo"><img src="https://img.shields.io/github/license/u8slvn/doggo" alt="Project license"></a>
 </p>
 
-## ⚙️ Run
+**Doggo** is a basic dog AI developed in Python and using pygame as a rendering engine. The dog just walks around the screen, changing states and direction randomly and dog's fur color is also picked randomly at start. State changes are based on a [Markov chain](https://en.wikipedia.org/wiki/Markov_chain), which is a simple model to represent a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.
 
-**doggo** use [poetry](https://python-poetry.org/) to manage dependencies and virtual environment.
+Here is a list of the dog states: *idle*, *idle and bark*, *walk*, *walk and bark*, *sit*, *sit and bark*, *lie down*, *lie down and bark*., *run*, *run and bark*, *stand*, *stand and bark*, *sleep*.
+
+<p align="center">
+    <img alt="doggo demo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/images/demo.gif">
+</p>
+
+**Project context**: A colleague of mine wanted to have a dog, but he couldn't because of lots of reasons. So I decided to make him a virtual dog and it was the opportunity for me to play with Markov chains.
+
+<p align="center">
+    <a href="https://github.com/u8slvn/doggo/releases">📦 Download latest release 📦</a>
+</p>
+
+## Run
+
+**Doggo** use [poetry](https://python-poetry.org/) to manage dependencies and virtual environment.
 
 ```bash
 poetry install
 poetry run python -m doggo
 ```
 
-## 📝 Licenses
+### Interactions
+
+The project is designed as a simple pet widget to keep on your desktop. It's an always-on-top borderless window, so you need to click on it to get the focus before interacting with it.
+
+* `ESC` to quit.
+* `Left Click` to move the window around.
+
+## Packaging
+
+If you want to package the project locally, you can use the script in `scripts/build.py`. It uses [PyInstaller](https://www.pyinstaller.org/) under the hood. Don't hesitate to update the script to fit your needs.
+
+```bash
+# Available os options: win32 , win64
+poetry run python scripts/build.py --os <os>
+```
+
+## Development
+
+For now, only one biome (mountain) is available. The feature to pick a biome randomly at start is already implemented, so I wish to add more in the future. Otherwise, I don't plan to add more features, like weathers or interactions, but the project is open to contributions. Just open a discussion before to make sure your idea fits the project.
+
+## Licenses
 
 * Code source under [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html)
 * Assets:
-  * Dog sprites in `src/doggo/assets/dogs` by [Benvictus](https://benvictus.itch.io/pixel-dogs)
-  * Landscape sprites in `src/doggo/assets/landscapes` under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+  * All assets under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+  * Excepting dog sprites in `src/doggo/assets/dogs` by [Benvictus](https://benvictus.itch.io/pixel-dogs)
