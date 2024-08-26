@@ -79,19 +79,24 @@ def build_pyinstaller_args(
     build_args += ["--icon", f"{ASSETS_PATH.joinpath('icon-42.png')}"]
 
     logger.info(f"Add assets folder: {ASSETS_PATH}")
-    build_args += ["--add-data", f"{ASSETS_PATH}/*;./{ASSETS_FOLDER}"]
+    build_args += ["--add-data", f"{ASSETS_PATH}:./{ASSETS_FOLDER}"]
     for items in ASSETS_PATH.glob("**/*"):
         if not items.is_dir():
             continue
         logger.info(f"Add data: {items};./{ASSETS_FOLDER}/{items.name}")
-        build_args += ["--add-data", f"{items};./{ASSETS_FOLDER}/{items.name}"]
+        build_args += ["--add-data", f"{items}:./{ASSETS_FOLDER}/{items.name}"]
 
-    logger.info(f"Add splash image: {ASSETS_PATH.joinpath('splash.png')}")
-    build_args += ["--splash", f"{ASSETS_PATH.joinpath('splash.png')}"]
+    if os in ["win32", "win64"]:
+        logger.info(f"Add splash image: {ASSETS_PATH.joinpath('splash.png')}")
+        build_args += ["--splash", f"{ASSETS_PATH.joinpath('splash.png')}"]
 
-    logger.info("Build options: onefile, noconsole, clean")
+        logger.info("Build options: onefile")
+        build_args += [
+            "--onefile",  # One compressed output file
+        ]
+
+    logger.info("Build options: noconsole, clean")
     build_args += [
-        "--onefile",  # One compressed output file
         "--noconsole",  # Disable log window
         "--clean",  # Clean cache and remove temp files
     ]
@@ -104,6 +109,7 @@ def build_pyinstaller_args(
         logger.info(f"Versionfile path: {versionfile_path}")
         build_args += ["--version-file", f"{versionfile_path}"]
 
+    print(" ".join(build_args))
     return build_args
 
 
@@ -138,7 +144,7 @@ if __name__ == "__main__":
         "--os",
         metavar="os",
         required=True,
-        choices=["win32", "win64"],
+        choices=["win32", "win64", "macos"],
         type=str,
     )
 
@@ -146,22 +152,25 @@ if __name__ == "__main__":
 
     os = args.os
 
-    os_name = "windows"
-    if os == "win32":
-        arch = "x86"
-    else:
-        arch = "x64"
-
     package_version = get_package_version()
-    output_filename = f"doggo-{package_version}-{os_name}-{arch}"
+    if os in ["macos"]:
+        output_filename = f"doggo-{package_version}-{os}"
+    elif os in ["win32", "win64"]:
+        arch = "x86" if os == "win32" else "x64"
+        output_filename = f"doggo-{package_version}-windows-{arch}"
+    else:
+        raise ValueError(f"Unsupported OS: {os}")
 
     versionfile_path = None
-    if os_name == "windows":
+    upx_path = None
+
+    if os in ["win32", "win64"]:
         versionfile_path = generate_versionfile(
             package_version=package_version,
             output_filename=output_filename,
         )
-    upx_path = install_upx(version=UPX_VERSION, os=os)
+        upx_path = install_upx(version=UPX_VERSION, os=os)
+
     build_args = build_pyinstaller_args(
         output_filename=output_filename,
         upx_path=upx_path,
