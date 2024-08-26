@@ -23,7 +23,7 @@ Here is a list of the dog states: *idle*, *idle and bark*, *walk*, *walk and bar
 **Project context**: A colleague of mine wanted to have a dog, but he couldn't because of lots of reasons. So I decided to make him a virtual dog and it was the opportunity for me to play with Markov chains.
 
 <p align="center">
-    <a href="https://github.com/u8slvn/doggo/releases">📦 Download latest release 📦</a>
+    📦<a href="https://github.com/u8slvn/doggo/releases">⇩ Download latest release ⇩</a>📦
 </p>
 
 ## Run
@@ -60,4 +60,4 @@ For now, only one biome (mountain) is available. The feature to pick a biome ran
 * Code source under [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html)
 * Assets:
   * All assets under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-  * Excepting dog sprites in `src/doggo/assets/dogs` by [Benvictus](https://benvictus.itch.io/pixel-dogs)
+  * Excepting dog sprites in `src/doggo/assets/dogs` from **Pixel Dogs** by [Benvictus](https://benvictus.itch.io/pixel-dogs)

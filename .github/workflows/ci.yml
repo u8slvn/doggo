@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   tests:
-    name: ${{ matrix.os }} - ${{ matrix.python-version }}
+    name: ${{ matrix.os }} - py${{ matrix.python-version }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
@@ -17,22 +17,22 @@ jobs:
         os: [ Ubuntu, macOS, Windows ]
         include:
           - os: Ubuntu
-            image: ubuntu-22.04
+            image: ubuntu-latest
           - os: Windows
-            image: windows-2022
+            image: windows-latest
           - os: macOS
-            image: macos-12
+            image: macos-latest
     defaults:
       run:
         shell: bash
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup headless display
       uses: pyvista/setup-headless-display-action@v2
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -59,8 +59,8 @@ jobs:
 
     - name: Check tests
       run: |
-        poetry run mypy
         poetry run pytest tests/ --cov=src
+        poetry run mypy
 
     - name: Publish coverage
       env:
