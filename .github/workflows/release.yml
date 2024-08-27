@@ -4,8 +4,8 @@ on:
     tags:
       - "v*.*.*"
 jobs:
-  build-windows:
-    name: build-windows-${{ matrix.arch }}
+  release-windows:
+    name: build-${{ matrix.arch }}
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -47,7 +47,7 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: windows-${{ matrix.platform }}
+        name: doggo-windows-${{ matrix.platform }}
         path: ${{ github.workspace }}/dist/doggo-*.exe
 
 #    - name: Publish release
