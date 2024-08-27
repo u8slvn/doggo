@@ -1,12 +1,12 @@
-name: build
+name: release
 on:
   push:
     tags:
       - "v*.*.*"
 jobs:
   release-windows:
-    name: build-${{ matrix.arch }}
-    runs-on: windows-latest
+    name: build-windows-${{ matrix.arch }}
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
@@ -56,7 +56,7 @@ jobs:
 #      with:
 #        files: dist/doggo-*.exe
 
-  build-macos:
+  release-macos:
     name: build-macos-${{ matrix.arch }}
     runs-on: macos-${{ matrix.os-version }}
     strategy:
@@ -66,10 +66,8 @@ jobs:
         include:
           - os-version: 13
             arch: x86_64
-            arch-name: Intel
           - os-version: 14
             arch: aarch64
-            arch-name: AppleSilicon
     defaults:
       run:
         shell: bash
@@ -97,14 +95,13 @@ jobs:
       run: |
         poetry run python scripts/build.py --os macos
 
-    - name: Sign app
-      run: codesign --force --deep -s - ./dist/doggo-*.app
-#        brew install create-dmg
-#        VERSION=$(grep -m 1 version pyproject.toml | grep -e '\d.\d.\d' -o)
-#        create-dmg --volname "Doggo" --no-internet-enable "doggo-$VERSION-${{ matrix.arch-name }}.dmg" "./dist/doggo-$VERSION-macos.app"
+    - name: Create DMG
+      run: |
+        brew install create-dmg
+        ./scripts/create-dmg.sh
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: macos-${{ matrix.arch-name }}
-        path: ${{ github.workspace }}/dist/doggo-*.app
+        name: doggo-macos-${{ matrix.arch }}
+        path: ${{ github.workspace }}/doggo-*.dmg
