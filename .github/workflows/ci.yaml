@@ -14,15 +14,13 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.12"]
-        os: [ Ubuntu, macOS-x86_64, macOS-arm64, Windows ]
+        os: [ ubuntu, macOS, windows ]
         include:
-          - os: Ubuntu
+          - os: ubuntu
             image: ubuntu-latest
-          - os: Windows
+          - os: windows
             image: windows-latest
-          - os: macOS-x86_64
-            image: macos-13
-          - os: macOS-arm64
+          - os: macOS
             image: macos-latest
     defaults:
       run:
@@ -38,22 +36,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install poetry
-      run: curl -sSL https://install.python-poetry.org | python - -y
-
-    - name: Update poetry path
-      if: ${{ matrix.os != 'Windows' }}
-      run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-    - name: Update poetry path for windows
-      if: ${{ matrix.os == 'Windows' }}
-      run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
-
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
-
-    - name: Install dependencies
-      run: poetry install
+    - name: Install poetry and dependencies
+      uses: ./.github/actions/bootstrap-poetry
+      with:
+        os: ${{ matrix.os }}
 
     - name: Check quality
       run: |

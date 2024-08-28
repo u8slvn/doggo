@@ -153,13 +153,7 @@ if __name__ == "__main__":
     os = args.os
 
     package_version = get_package_version()
-    if os in ["macos"]:
-        output_filename = f"doggo-{package_version}-{os}"
-    elif os in ["win32", "win64"]:
-        arch = "x86" if os == "win32" else "x64"
-        output_filename = f"doggo-{package_version}-windows-{arch}"
-    else:
-        raise ValueError(f"Unsupported OS: {os}")
+    output_filename = PACKAGE_NAME.title()
 
     versionfile_path = None
     upx_path = None

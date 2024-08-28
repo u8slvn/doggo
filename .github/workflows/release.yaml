@@ -5,7 +5,7 @@ on:
       - "v*.*.*"
 jobs:
   release-windows:
-    name: build-windows-${{ matrix.arch }}
+    name: build-${{ matrix.platform }}
     runs-on: windows-2022
     strategy:
       fail-fast: false
@@ -47,8 +47,8 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: doggo-windows-${{ matrix.platform }}
-        path: ${{ github.workspace }}/dist/doggo-*.exe
+        name: windowsAssets${{ matrix.platform }}
+        path: ${{ github.workspace }}/dist/Doggo.exe
 
 #    - name: Publish release
 #      uses: softprops/action-gh-release@v2
