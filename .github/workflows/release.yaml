@@ -28,27 +28,23 @@ jobs:
         python-version: 3.12
         architecture: ${{ matrix.arch }}
 
-    - name: Install poetry
-      run: curl -sSL https://install.python-poetry.org | python - -y
-
-    - name: Update poetry path
-      run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
-
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
-
-    - name: Install dependencies
-      run: poetry install
+    - name: Install poetry and dependencies
+      uses: ./.github/actions/bootstrap-poetry
+      with:
+        os: windows
 
     - name: Build release
-      run: |
-        poetry run python scripts/build.py --os ${{ matrix.platform }}
+      run: poetry run python scripts/build.py --os ${{ matrix.platform }}
 
-    - name: Archive production artifacts
+    - name: Rename artifact
+      run: ./scripts/rename-release-file.sh windows
+
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: windowsAssets${{ matrix.platform }}
-        path: ${{ github.workspace }}/dist/Doggo.exe
+        name: windows-assets-${{ matrix.platform }}
+        path: ${{ github.workspace }}/doggo-*.exe
+        retention-days: 2
 
 #    - name: Publish release
 #      uses: softprops/action-gh-release@v2
@@ -57,17 +53,17 @@ jobs:
 #        files: dist/doggo-*.exe
 
   release-macos:
-    name: build-macos-${{ matrix.arch }}
-    runs-on: macos-${{ matrix.os-version }}
+    name: build-${{ matrix.platform }}
+    runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
-        os-version: [ 13, 14 ]
+        platform: [ Intel, AppleSilicon ]
         include:
-          - os-version: 13
-            arch: x86_64
-          - os-version: 14
-            arch: aarch64
+          - platform: Intel
+            image: macos-13
+          - platform: AppleSilicon
+            image: macos-14
     defaults:
       run:
         shell: bash
@@ -79,29 +75,26 @@ jobs:
       with:
         python-version: 3.12
 
-    - name: Install poetry
-      run: curl -sSL https://install.python-poetry.org | python - -y
-
-    - name: Update poetry path
-      run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-    - name: Configure poetry
-      run: poetry config virtualenvs.in-project true
-
-    - name: Install dependencies
-      run: poetry install
+    - name: Install poetry and dependencies
+      uses: ./.github/actions/bootstrap-poetry
+      with:
+        os: macos
 
     - name: Build release
-      run: |
-        poetry run python scripts/build.py --os macos
+      run: poetry run python scripts/build.py --os macos
 
-    - name: Create DMG
-      run: |
-        brew install create-dmg
-        ./scripts/create-dmg.sh
+    - name: Install create-dmg
+      run: brew install create-dmg
 
-    - name: Archive production artifacts
+    - name: Create dmg file
+      run: ./scripts/create-dmg.sh
+
+    - name: Rename artifact
+      run: ./scripts/rename-release-file.sh macos
+
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: doggo-macos-${{ matrix.arch }}
+        name: macos-assets-${{ matrix.platform }}
         path: ${{ github.workspace }}/doggo-*.dmg
+        retention-days: 2
