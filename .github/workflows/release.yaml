@@ -4,7 +4,7 @@ on:
     tags:
       - "v*.*.*"
 jobs:
-  release-windows:
+  build-windows-artifacts:
     name: build-windows-${{ matrix.platform }}
     runs-on: windows-2022
     strategy:
@@ -51,13 +51,7 @@ jobs:
         path: ${{ github.workspace }}/doggo-*.exe
         retention-days: 2
 
-#    - name: Publish release
-#      uses: softprops/action-gh-release@v2
-#      if: startsWith(github.ref, 'refs/tags/')
-#      with:
-#        files: dist/doggo-*.exe
-
-  release-macos:
+  build-macos-artifacts:
     name: build-macos-${{ matrix.platform }}
     runs-on: ${{ matrix.image }}
     strategy:
@@ -103,3 +97,30 @@ jobs:
         name: macos-assets-${{ matrix.platform }}
         path: ${{ github.workspace }}/doggo-*.dmg
         retention-days: 2
+
+  publish-release:
+    needs: [ build-windows-artifacts, build-macos-artifacts ]
+    runs-on: ubuntu-latest
+    environment: publish-release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+
+      - name: List artifacts
+        run: |
+          ls -al
+          ls -al macos-*
+          ls -al windows-*
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{  github.ref_name }}
+          tag_name: ${{  github.ref_name }}
+          draft: true
+          files: |
+            windows-assets-*/doggo-*.exe
+            macos-assets-*/doggo-*.dmg
+            LICENSE
