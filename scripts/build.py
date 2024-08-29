@@ -64,7 +64,7 @@ def build_pyinstaller_args(
         logger.info(f"Add data: {items};./{ASSETS_FOLDER}/{items.name}")
         build_args += ["--add-data", f"{items}:./{ASSETS_FOLDER}/{items.name}"]
 
-    if os == "windows":
+    if os in ["windows", "linux"]:
         logger.info(f"Add splash image: {ASSETS_PATH.joinpath('splash.png')}")
         build_args += ["--splash", f"{ASSETS_PATH.joinpath('splash.png')}"]
 
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         "--os",
         metavar="os",
         required=True,
-        choices=["windows", "macos"],
+        choices=["windows", "macos", "linux"],
         type=str,
     )
 

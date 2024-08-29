@@ -48,7 +48,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: windows-assets-${{ matrix.platform }}
-        path: ${{ github.workspace }}/doggo-*.exe
+        path: ${{ github.workspace }}/dist/doggo-*.exe
         retention-days: 2
 
   build-macos-artifacts:
@@ -95,7 +95,44 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: macos-assets-${{ matrix.platform }}
-        path: ${{ github.workspace }}/doggo-*.dmg
+        path: ${{ github.workspace }}/dist/doggo-*.dmg
+        retention-days: 2
+
+  build-linux-artifacts:
+    name: build-linux
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install UPX
+      uses: crazy-max/ghaction-upx@v3
+      with:
+        install-only: true
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+
+    - name: Install poetry and dependencies
+      uses: ./.github/actions/bootstrap-poetry
+      with:
+        os: linux
+
+    - name: Build release
+      run: poetry run python scripts/build.py --os linux
+
+    - name: Rename artifact
+      run: ./scripts/rename-release-file.sh linux
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-assets
+        path: ${{ github.workspace }}/dist/doggo-*.AppImage
         retention-days: 2
 
   publish-release:
@@ -108,12 +145,6 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
 
-      - name: List artifacts
-        run: |
-          ls -al
-          ls -al macos-*
-          ls -al windows-*
-
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
@@ -123,4 +154,5 @@ jobs:
           files: |
             windows-assets-*/doggo-*.exe
             macos-assets-*/doggo-*.dmg
+            linux-assets/doggo-*.AppImage
             LICENSE

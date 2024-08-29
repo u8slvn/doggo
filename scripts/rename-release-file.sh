@@ -9,7 +9,7 @@ case "$OS_NAME" in
     "macos")
         ARCH_NAME=$([[ "$(arch)" = "arm64" ]] && echo "AppleSilicon" || echo "Intel")
         FILE_NAME="doggo-${VERSION}-macos-${ARCH_NAME}.dmg"
-        mv ./dist/Doggo.dmg "./$FILE_NAME"
+        mv ./dist/Doggo.dmg "./dist/$FILE_NAME"
         ;;
     "windows")
         ARCH=$(python -c "import platform;print(platform.architecture()[0])")
@@ -19,12 +19,12 @@ case "$OS_NAME" in
             ARCH_NAME="x32"
         fi
         FILE_NAME="doggo-${VERSION}-windows-${ARCH_NAME}.exe"
-        mv ./dist/Doggo.exe "./$FILE_NAME"
+        mv ./dist/Doggo.exe "./dist/$FILE_NAME"
         ;;
     "linux")
         ARCH_NAME=$(uname -m)
         FILE_NAME="doggo-${VERSION}-linux-${ARCH_NAME}.AppImage"
-        mv ./dist/Doggo.AppImage "./$FILE_NAME"
+        mv ./dist/Doggo.AppImage "./dist/$FILE_NAME"
         ;;
     *)
         echo "Unsupported OS: $OS_NAME"
