@@ -99,8 +99,8 @@ jobs:
         retention-days: 2
 
   build-linux-artifacts:
-    name: build-linux
-    runs-on: ubuntu-24.04
+    name: build-linux-generic
+    runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
@@ -125,6 +125,12 @@ jobs:
     - name: Build release
       run: poetry run python scripts/build.py --os linux
 
+    - name: Install appimage-builder
+      run: pip install appimage-builder
+
+    - name: Create AppImage file
+      run: ./scripts/create-appimage.sh
+
     - name: Rename artifact
       run: ./scripts/rename-release-file.sh linux
 
@@ -136,7 +142,7 @@ jobs:
         retention-days: 2
 
   publish-release:
-    needs: [ build-windows-artifacts, build-macos-artifacts ]
+    needs: [ build-windows-artifacts, build-macos-artifacts, build-linux-artifacts ]
     runs-on: ubuntu-latest
     environment: publish-release
     steps:

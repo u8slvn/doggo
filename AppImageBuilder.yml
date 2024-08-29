@@ -1,0 +1,49 @@
+version: 1
+script:
+  - TARGET_APPDIR=./AppDir
+  - rm -rf $TARGET_APPDIR  | true
+  - mkdir -p $TARGET_APPDIR/usr/src
+  - mkdir -p $TARGET_APPDIR/usr/share/icons
+  - cp -r ./dist/Doggo/* $TARGET_APPDIR/usr/src
+  - cp ./src/doggo/assets/icon-42.png $TARGET_APPDIR/usr/share/icons/doggo.png
+
+AppDir:
+  app_info:
+    id: org.u8slvn.doggo
+    name: Doggo
+    icon: doggo
+    version: 0.1.0
+    exec: usr/src/Doggo
+
+  after_bundle:
+    - mkdir -p $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+    - cp /usr/lib/x86_64-linux-gnu/libdl.so.2 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+    - cp /usr/lib/x86_64-linux-gnu/libm.so.6 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+    - cp /usr/lib/x86_64-linux-gnu/libz.so.1 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+    - cp /usr/lib/x86_64-linux-gnu/libpthread.so.0 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+
+  test:
+    debian:
+      image: appimagecrafters/tests-env:debian-stable
+      command: "./AppRun"
+      use_host_x: true
+    centos:
+      image: appimagecrafters/tests-env:centos-7
+      command: "./AppRun"
+      use_host_x: true
+    arch:
+      image: appimagecrafters/tests-env:archlinux-latest
+      command: "./AppRun"
+      use_host_x: true
+    fedora:
+      image: appimagecrafters/tests-env:fedora-30
+      command: "./AppRun"
+      use_host_x: true
+    ubuntu:
+      image: appimagecrafters/tests-env:ubuntu-xenial
+      command: "./AppRun"
+      use_host_x: true
+
+AppImage:
+  arch: x86_64
+  file_name: ./dist/Doggo.AppImage

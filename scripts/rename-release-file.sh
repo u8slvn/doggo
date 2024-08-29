@@ -8,7 +8,7 @@ VERSION=$(poetry version --short)
 case "$OS_NAME" in
     "macos")
         ARCH_NAME=$([[ "$(arch)" = "arm64" ]] && echo "AppleSilicon" || echo "Intel")
-        FILE_NAME="doggo-${VERSION}-macos-${ARCH_NAME}.dmg"
+        FILE_NAME="doggo-${VERSION}-${ARCH_NAME}.dmg"
         mv ./dist/Doggo.dmg "./dist/$FILE_NAME"
         ;;
     "windows")
@@ -23,7 +23,7 @@ case "$OS_NAME" in
         ;;
     "linux")
         ARCH_NAME=$(uname -m)
-        FILE_NAME="doggo-${VERSION}-linux-${ARCH_NAME}.AppImage"
+        FILE_NAME="doggo-${VERSION}-${ARCH_NAME}.AppImage"
         mv ./dist/Doggo.AppImage "./dist/$FILE_NAME"
         ;;
     *)
