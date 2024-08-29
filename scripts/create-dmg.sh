@@ -10,5 +10,5 @@ create-dmg \
     --app-drop-link 325 60 \
     --format UDBZ \
     --no-internet-enable \
-    "Doggo.dmg" \
+    "./dist/Doggo.dmg" \
     "./dist/Doggo.app"
