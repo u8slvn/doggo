@@ -1,3 +1,3 @@
 #!/bin/bash
 
-appimage-builder --recipe AppImageBuilder.yml --skip-test
+appimage-builder --recipe AppImageBuilder.yml

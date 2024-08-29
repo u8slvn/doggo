@@ -1,26 +1,26 @@
 version: 1
 script:
   - TARGET_APPDIR=./AppDir
+  - VERSION=$(poetry version --short)
   - rm -rf $TARGET_APPDIR  | true
   - mkdir -p $TARGET_APPDIR/usr/src
   - mkdir -p $TARGET_APPDIR/usr/share/icons
   - cp -r ./dist/Doggo/* $TARGET_APPDIR/usr/src
   - cp ./src/doggo/assets/icon-42.png $TARGET_APPDIR/usr/share/icons/doggo.png
+  - mkdir -p $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+  - cp /usr/lib/x86_64-linux-gnu/libc.so.6 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+  - cp /usr/lib/x86_64-linux-gnu/libdl.so.2 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+  - cp /usr/lib/x86_64-linux-gnu/libm.so.6 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+  - cp /usr/lib/x86_64-linux-gnu/libz.so.1 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
+  - cp /usr/lib/x86_64-linux-gnu/libpthread.so.0 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
 
 AppDir:
   app_info:
     id: org.u8slvn.doggo
     name: Doggo
     icon: doggo
-    version: 0.1.0
+    version: $VERSION
     exec: usr/src/Doggo
-
-  after_bundle:
-    - mkdir -p $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
-    - cp /usr/lib/x86_64-linux-gnu/libdl.so.2 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
-    - cp /usr/lib/x86_64-linux-gnu/libm.so.6 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
-    - cp /usr/lib/x86_64-linux-gnu/libz.so.1 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
-    - cp /usr/lib/x86_64-linux-gnu/libpthread.so.0 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
 
   test:
     debian:
