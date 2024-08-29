@@ -5,7 +5,7 @@ on:
       - "v*.*.*"
 jobs:
   release-windows:
-    name: build-${{ matrix.platform }}
+    name: build-windows-${{ matrix.platform }}
     runs-on: windows-2022
     strategy:
       fail-fast: false
@@ -22,6 +22,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install UPX
+      uses: crazy-max/ghaction-upx@v3
+      with:
+        install-only: true
+
     - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
@@ -34,7 +39,7 @@ jobs:
         os: windows
 
     - name: Build release
-      run: poetry run python scripts/build.py --os ${{ matrix.platform }}
+      run: poetry run python scripts/build.py --os windows
 
     - name: Rename artifact
       run: ./scripts/rename-release-file.sh windows
@@ -53,7 +58,7 @@ jobs:
 #        files: dist/doggo-*.exe
 
   release-macos:
-    name: build-${{ matrix.platform }}
+    name: build-macos-${{ matrix.platform }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
