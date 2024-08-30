@@ -23,7 +23,6 @@ def run() -> None:
     Initialize the pygame and start the world.
     """
     # Check if the app should run in fullscreen mode.
-    # Fu
     fullscreen = os.getenv("DOGGO_FULLSCREEN", "False").lower() in ("1", "true")
 
     pg.init()

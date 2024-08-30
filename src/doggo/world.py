@@ -38,12 +38,13 @@ class World:
             size=size,
             borderless=True,
             always_on_top=True,
+            fullscreen=fullscreen,
         )
         self.window_surf: pg.Surface = self.window.get_surface()
         self.screen: pg.Surface = pg.Surface(size=size)
         self.window.set_icon(pg.image.load(icon).convert_alpha())
         self.draggable: DraggableWindow = DraggableWindow(window=self.window)
-        self.fullscreen: bool = False
+        self.fullscreen: bool = fullscreen
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
         self.running: bool = False

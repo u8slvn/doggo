@@ -42,9 +42,9 @@ def test_world_screen_is_scaled_regarding_fullscreen(fullscreen):
     screen = world.get_screen()
 
     if fullscreen:
-        assert screen.get_size() == (340, 106)
-    else:
         assert screen.get_size() == world.window_surf.get_size()
+    else:
+        assert screen.get_size() == (340, 106)
 
 
 def test_world_get_dt():
