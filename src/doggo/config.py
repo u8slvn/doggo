@@ -19,8 +19,9 @@ WIN = sys.platform.startswith("win")
 
 WORLD_TITLE = "Doggo"
 WORLD_FPS = 30
-WORLD_WIDTH = 350
-WORLD_HEIGHT = 100
+# Screen size to Ratio 16:5 to fit 7.9" screen.
+WORLD_WIDTH = 340
+WORLD_HEIGHT = 106
 WORLD_GROUND_HEIGHT = 15  # The size of the ground.
 WORLD_GROUND = (
     WORLD_HEIGHT - WORLD_GROUND_HEIGHT
