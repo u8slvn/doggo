@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#readme" align="center">
-      <img alt="Until Zero - タイマー | logo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/src/doggo/assets/splash.png">
+      <img alt="Until Zero - タイマー | logo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/assets/splash.png">
   </a>
 </p>
 <p align="center">
@@ -18,7 +18,7 @@
 Here is a list of the dog states: *idle*, *idle and bark*, *walk*, *walk and bark*, *sit*, *sit and bark*, *lie down*, *lie down and bark*., *run*, *run and bark*, *stand*, *stand and bark*, *sleep*.
 
 <p align="center">
-    <img alt="doggo demo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/images/demo.gif">
+    <img alt="doggo demo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/assets/demo.gif">
 </p>
 
 **Project context**: A colleague of mine wanted to have a dog, but he couldn't because of lots of reasons. So I decided to make him a virtual dog and it was the opportunity for me to play with Markov chains.

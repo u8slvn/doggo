@@ -28,9 +28,11 @@ PRODUCT_NAME = APP_NAME
 
 # ------ Build paths ------
 BUILD_PATH = Path(__file__).parent.resolve()
+ROOT_PATH = BUILD_PATH.parent.resolve()
 PROJECT_PATH = BUILD_PATH.parent.joinpath("src").resolve()
 PACKAGE_PATH = PROJECT_PATH.joinpath(PACKAGE_NAME).resolve()
-ASSETS_PATH = PACKAGE_PATH.joinpath(ASSETS_FOLDER)
+ASSETS_PATH = PACKAGE_PATH.joinpath(ASSETS_FOLDER).resolve()
+ROOT_ASSETS_PATH = ROOT_PATH.joinpath(ASSETS_FOLDER).resolve()
 
 
 def build_pyinstaller_args(
@@ -53,20 +55,20 @@ def build_pyinstaller_args(
     logger.info(f"Output exe filename: {output_filename}")
     build_args += ["-n", output_filename]
 
-    logger.info(f"Output file icon: {ASSETS_PATH.joinpath('icon-42.png')}")
-    build_args += ["--icon", f"{ASSETS_PATH.joinpath('icon-42.png')}"]
+    logger.info(f"Output file icon: {ROOT_ASSETS_PATH.joinpath('icon-42.png')}")
+    build_args += ["--icon", f"{ROOT_ASSETS_PATH.joinpath('icon-42.png')}"]
 
     logger.info(f"Add assets folder: {ASSETS_PATH}")
     build_args += ["--add-data", f"{ASSETS_PATH}:./{ASSETS_FOLDER}"]
     for items in ASSETS_PATH.glob("**/*"):
         if not items.is_dir():
             continue
-        logger.info(f"Add data: {items};./{ASSETS_FOLDER}/{items.name}")
+        logger.info(f"Add data: {items}:./{ASSETS_FOLDER}/{items.name}")
         build_args += ["--add-data", f"{items}:./{ASSETS_FOLDER}/{items.name}"]
 
     if os in ["windows"]:
-        logger.info(f"Add splash image: {ASSETS_PATH.joinpath('splash.png')}")
-        build_args += ["--splash", f"{ASSETS_PATH.joinpath('splash.png')}"]
+        logger.info(f"Add splash image: {ROOT_ASSETS_PATH.joinpath('splash.png')}")
+        build_args += ["--splash", f"{ROOT_ASSETS_PATH.joinpath('splash.png')}"]
 
         logger.info("Build options: onefile")
         build_args += [
