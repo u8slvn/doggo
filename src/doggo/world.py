@@ -33,6 +33,7 @@ class World:
         fps: int = 60,
         fullscreen: bool = False,
     ) -> None:
+        pg.init()
         self.window: pg.window.Window = pg.window.Window(
             title=title,
             size=size,
@@ -40,6 +41,7 @@ class World:
             always_on_top=True,
             fullscreen=fullscreen,
         )
+        self._running: bool = False
         self.window_surf: pg.Surface = self.window.get_surface()
         self.screen: pg.Surface = pg.Surface(size=size)
         self.window.set_icon(pg.image.load(icon).convert_alpha())
@@ -47,11 +49,14 @@ class World:
         self.fullscreen: bool = fullscreen
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
-        self.running: bool = False
         self.dt: float = 0.0
         self.prev_time: float = time.time()
         self.landscape = build_landscape()
         self.dog: Dog = build_dog()
+
+    def is_running(self) -> bool:
+        """Check if the world is running."""
+        return self._running
 
     def get_screen(self) -> pg.Surface:
         """Adapt the screen to the window size if fullscreen.
@@ -70,7 +75,7 @@ class World:
             if event.type == pg.QUIT or (
                 event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE
             ):
-                self.running = False
+                self.stop()
 
             if not self.fullscreen:
                 self.draggable.process_event(event=event)
@@ -102,20 +107,32 @@ class World:
             f"for {self.dog.brain.current_state.countdown}s."
         )
 
-        self.running = True
+        self._running = True
+        self.run()
 
-        while self.running:
-            self.get_dt()
-            self.process_inputs()
-            self.update()
-            self.render()
-            self.clock.tick(self.fps)
+    def run(self) -> None:
+        """World game loop."""
+        try:
+            while self.is_running():
+                self.get_dt()
+                self.process_inputs()
+                self.update()
+                self.render()
+                self.clock.tick(self.fps)
+        except KeyboardInterrupt:
+            logger.info("A mysterious force stopped the world.")
+        except Exception as error:
+            logger.error(f"World crashed: {error}.")
+        finally:
+            self.destroy()
 
-        self.stop()
+    def stop(self) -> None:
+        """Stop the world."""
+        self._running = False
+        logger.info("World stopped. Dog is going to sleep.")
 
     @staticmethod
-    def stop() -> None:
-        """Stop the world."""
+    def destroy() -> None:
+        """Destroy the world."""
         pg.quit()
-        logger.info("World stopped. Dog is going to sleep.")
         sys.exit()

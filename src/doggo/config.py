@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 
 from typing import TYPE_CHECKING
@@ -26,6 +27,7 @@ WORLD_GROUND_HEIGHT = 15  # The size of the ground.
 WORLD_GROUND = (
     WORLD_HEIGHT - WORLD_GROUND_HEIGHT
 )  # The ground level in the world, where the dog can walk on.
+WORLD_FULLSCREEN = os.getenv("DOGGO_FULLSCREEN", "False").lower() in ("1", "true")
 
 # --- Dog sprite sheet configuration ---
 
