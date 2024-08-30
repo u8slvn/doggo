@@ -15,7 +15,7 @@
 
 **Doggo** is a basic dog AI developed in Python and using pygame as a rendering engine. The dog just walks around the screen, changing states and direction randomly and dog's fur color is also picked randomly at start. State changes are based on a [Markov chain](https://en.wikipedia.org/wiki/Markov_chain), which is a simple model to represent a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.
 
-Here is a list of the dog states: *idle*, *idle and bark*, *walk*, *walk and bark*, *sit*, *sit and bark*, *lie down*, *lie down and bark*., *run*, *run and bark*, *stand*, *stand and bark*, *sleep*.
+Here is a list of the dog states: `idle`, `idle and bark`, `walk`, `walk and bark`, `sit`, `sit and bark`, `lie down`, `lie down and bark`, `run`, `run and bark`, `stand`, `stand and bark`, `sleep`.
 
 **Project context**: A colleague of mine wanted to have a dog, but he couldn't because of lots of reasons. So I decided to make him a virtual dog and it was the opportunity for me to play with Markov chains.
 
