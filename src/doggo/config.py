@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 
 
 COMPILED_ENV = getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS")
+WIN = sys.platform.startswith("win")
 
 # --- World configuration ---
 

@@ -5,10 +5,13 @@ import pygame as pg
 from doggo import ASSETS_PATH
 from doggo import config
 from doggo.config import COMPILED_ENV
+from doggo.config import WIN
 from doggo.world import World
 
 
-if COMPILED_ENV:
+if COMPILED_ENV and WIN:
+    # Import the PyInstaller splash screen module only if the app is compiled and
+    # running on Windows.
     import pyi_splash
 
 
@@ -26,7 +29,7 @@ def run() -> None:
         fps=config.WORLD_FPS,
     )
 
-    if COMPILED_ENV:
+    if COMPILED_ENV and WIN:
         pyi_splash.close()
 
     world.start()
