@@ -26,14 +26,12 @@ Here is a list of the dog states: *idle*, *idle and bark*, *walk*, *walk and bar
 <p align="center">
     📦 <a href="https://github.com/u8slvn/doggo/releases">⇩ Download latest release ⇩</a>📦
     <br/>
-    <span style="font-style: italic; color: #888888;">Note: release binaries are generated from the <a href="https://github.com/u8slvn/doggo/actions/workflows/release.yaml">release workflow</a> and are unsigned. You may need to allow the execution of the binary in your system settings.</span>
+    <i>Note: release binaries are generated from the <a href="https://github.com/u8slvn/doggo/actions/workflows/release.yaml">release workflow</a> and are unsigned.<br />You may need to allow the execution of the binary in your system settings.</i>
 </p>
 
-### Interactions
+## Controls
 
 The project is designed as a simple pet widget to keep on your desktop. It's an always-on-top borderless window, so you need to click on it to get the focus before interacting with it.
-
-**Controls**:
 
 * `ESC` to quit.
 * `Left Click` to move the window around.
