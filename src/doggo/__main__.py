@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 import pygame as pg
 
 from doggo import ASSETS_PATH
@@ -20,6 +22,10 @@ def run() -> None:
 
     Initialize the pygame and start the world.
     """
+    # Check if the app should run in fullscreen mode.
+    # Fu
+    fullscreen = os.getenv("DOGGO_FULLSCREEN", "False").lower() in ("1", "true")
+
     pg.init()
 
     world = World(
@@ -27,6 +33,7 @@ def run() -> None:
         size=(config.WORLD_WIDTH, config.WORLD_HEIGHT),
         icon=ASSETS_PATH.joinpath("icon.png"),
         fps=config.WORLD_FPS,
+        fullscreen=fullscreen,
     )
 
     if COMPILED_ENV and WIN:

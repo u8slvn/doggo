@@ -26,7 +26,12 @@ class World:
     """
 
     def __init__(
-        self, title: str, size: tuple[int, int], icon: Path, fps: int = 60
+        self,
+        title: str,
+        size: tuple[int, int],
+        icon: Path,
+        fps: int = 60,
+        fullscreen: bool = False,
     ) -> None:
         self.window: pg.window.Window = pg.window.Window(
             title=title,
@@ -34,17 +39,29 @@ class World:
             borderless=True,
             always_on_top=True,
         )
-        self.screen: pg.Surface = self.window.get_surface()
+        self.window_surf: pg.Surface = self.window.get_surface()
+        self.screen: pg.Surface = pg.Surface(size=size)
         self.window.set_icon(pg.image.load(icon).convert_alpha())
         self.draggable: DraggableWindow = DraggableWindow(window=self.window)
+        self.fullscreen: bool = False
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
         self.running: bool = False
         self.dt: float = 0.0
         self.prev_time: float = time.time()
-
         self.landscape = build_landscape()
         self.dog: Dog = build_dog()
+
+    def get_screen(self) -> pg.Surface:
+        """Adapt the screen to the window size if fullscreen.
+
+        Didn't respect the aspect ratio, to use only if the display ratio is the same
+        as the default window size one.
+        """
+        if self.fullscreen:
+            return pg.transform.scale(self.screen, self.window_surf.get_size())
+
+        return self.screen
 
     def process_inputs(self) -> None:
         """Process the inputs of the world."""
@@ -54,7 +71,8 @@ class World:
             ):
                 self.running = False
 
-            self.draggable.process_event(event=event)
+            if not self.fullscreen:
+                self.draggable.process_event(event=event)
 
     def get_dt(self) -> None:
         """Calculate the delta time."""
@@ -72,6 +90,7 @@ class World:
         self.landscape.background.draw(screen=self.screen)
         self.dog.draw(screen=self.screen)
         self.landscape.foreground.draw(screen=self.screen)
+        self.window_surf.blit(self.get_screen(), (0, 0))
         self.window.flip()
 
     def start(self) -> None:
