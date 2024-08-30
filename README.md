@@ -17,16 +17,16 @@
 
 Here is a list of the dog states: *idle*, *idle and bark*, *walk*, *walk and bark*, *sit*, *sit and bark*, *lie down*, *lie down and bark*., *run*, *run and bark*, *stand*, *stand and bark*, *sleep*.
 
+**Project context**: A colleague of mine wanted to have a dog, but he couldn't because of lots of reasons. So I decided to make him a virtual dog and it was the opportunity for me to play with Markov chains.
+
 <p align="center">
     <img alt="doggo demo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/assets/demo.gif">
 </p>
 
-**Project context**: A colleague of mine wanted to have a dog, but he couldn't because of lots of reasons. So I decided to make him a virtual dog and it was the opportunity for me to play with Markov chains.
-
 <p align="center">
     📦 <a href="https://github.com/u8slvn/doggo/releases">⇩ Download latest release ⇩</a>📦
     <br/>
-    <i>Note: release binaries are generated from the <a href="https://github.com/u8slvn/doggo/actions/workflows/release.yaml">release workflow</a> and are unsigned.<br />You may need to allow the execution of the binary in your system settings.</i>
+    <i>NOTE: release binaries are generated from the <a href="https://github.com/u8slvn/doggo/actions/workflows/release.yaml">release workflow</a> and are unsigned.<br />You may need to allow the execution of the binary in your system settings.</i>
 </p>
 
 ## Controls
