@@ -4,9 +4,9 @@ script:
   - VERSION=$(poetry version --short)
   - rm -rf $TARGET_APPDIR  | true
   - mkdir -p $TARGET_APPDIR/usr/src
-  - mkdir -p $TARGET_APPDIR/usr/share/icons
+  - mkdir -p $TARGET_APPDIR/usr/share/icons/256x256
   - cp -r ./dist/Doggo/* $TARGET_APPDIR/usr/src
-  - cp ./src/doggo/assets/icon-256.png $TARGET_APPDIR/usr/share/icons/256x256/doggo.png
+  - cp ./assets/icon-256.png $TARGET_APPDIR/usr/share/icons/256x256/doggo.png
   - mkdir -p $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
   - cp /usr/lib/x86_64-linux-gnu/libc.so.6 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
   - cp /usr/lib/x86_64-linux-gnu/libdl.so.2 $TARGET_APPDIR/usr/lib/x86_64-linux-gnu
