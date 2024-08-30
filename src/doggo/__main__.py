@@ -32,7 +32,10 @@ def run() -> None:
     if COMPILED_ENV and WIN:
         pyi_splash.close()
 
-    world.start()
+    try:
+        world.start()
+    except KeyboardInterrupt:
+        world.stop()
 
 
 if __name__ == "__main__":
