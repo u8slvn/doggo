@@ -23,7 +23,7 @@ def run() -> None:
         size=(config.WORLD_WIDTH, config.WORLD_HEIGHT),
         icon=ASSETS_PATH.joinpath("icon.png"),
         fps=config.WORLD_FPS,
-        fullscreen=config.WORLD_FULLSCREEN,
+        render_size=config.WORLD_RENDER_SIZE,
     )
 
     if COMPILED_ENV and WIN:

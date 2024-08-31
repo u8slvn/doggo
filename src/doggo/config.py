@@ -5,6 +5,8 @@ import sys
 
 from typing import TYPE_CHECKING
 
+from loguru import logger
+
 from doggo.dog import StateID
 from doggo.dog.brain import Direction
 
@@ -15,6 +17,9 @@ if TYPE_CHECKING:
 
 COMPILED_ENV = getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS")
 WIN = sys.platform.startswith("win")
+
+DOGGO_7_9_SCREEN = os.getenv("DOGGO_7_9_SCREEN", "False").lower() in ("1", "true")
+logger.debug(f"7.9 screen: {DOGGO_7_9_SCREEN}")
 
 # --- World configuration ---
 
@@ -27,7 +32,7 @@ WORLD_GROUND_HEIGHT = 15  # The size of the ground.
 WORLD_GROUND = (
     WORLD_HEIGHT - WORLD_GROUND_HEIGHT
 )  # The ground level in the world, where the dog can walk on.
-WORLD_FULLSCREEN = os.getenv("DOGGO_FULLSCREEN", "False").lower() in ("1", "true")
+WORLD_RENDER_SIZE = (1280, 400) if DOGGO_7_9_SCREEN else None
 
 # --- Dog sprite sheet configuration ---
 

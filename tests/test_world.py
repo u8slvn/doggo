@@ -13,14 +13,14 @@ from doggo.world import World
 def create_world():
     world = None
 
-    def _(fullscreen=False):
+    def _(render_size=None):
         nonlocal world
         world = World(
             title="Doggo Test",
             size=(340, 106),
             icon=ASSETS_PATH.joinpath("icon.png"),
             fps=30,
-            fullscreen=fullscreen,
+            render_size=render_size,
         )
 
         return world
@@ -40,18 +40,18 @@ def test_world_initializes_correctly(create_world):
     assert world.window.always_on_top is True
     assert world.window_surf.get_size() == (340, 106)
     assert world.screen.get_size() == (340, 106)
-    assert world.fullscreen is False
+    assert world.render_size is None
     assert world.fps == 30
     assert world._running is False
     assert world.dt == 0.0
 
 
-@pytest.mark.parametrize("fullscreen", [True, False])
-def test_world_screen_is_scaled_regarding_fullscreen(create_world, fullscreen):
-    world = create_world(fullscreen)
+@pytest.mark.parametrize("render_size", [(1280, 400), None])
+def test_world_screen_is_scaled_regarding_render_size(create_world, render_size):
+    world = create_world(render_size)
     screen = world.get_screen()
 
-    if fullscreen:
+    if render_size:
         assert screen.get_size() == world.window_surf.get_size()
     else:
         assert screen.get_size() == (340, 106)
@@ -81,25 +81,6 @@ def test_world_stop_at_some_events(mocker, create_world, event):
     world.process_inputs()
 
     assert world._running is False
-
-
-@pytest.mark.parametrize(
-    "fullscreen",
-    [True, False],
-)
-def test_world_draggable_window_is_processed_correctly(
-    mocker, create_world, fullscreen
-):
-    mocker.patch("pygame.event.get", return_value=[pg.event.Event(pg.MOUSEBUTTONDOWN)])
-    world = create_world(fullscreen)
-    mocker.patch.object(world.draggable, "process_event", spec=True)
-
-    world.process_inputs()
-
-    if fullscreen:
-        world.draggable.process_event.assert_not_called()
-    else:
-        world.draggable.process_event.assert_called_once_with(event=pg.event.get()[0])
 
 
 def test_world_update(mocker, create_world):

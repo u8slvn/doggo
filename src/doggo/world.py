@@ -31,22 +31,21 @@ class World:
         size: tuple[int, int],
         icon: Path,
         fps: int = 60,
-        fullscreen: bool = False,
+        render_size: tuple[int, int] | None = None,
     ) -> None:
         pg.init()
         self.window: pg.window.Window = pg.window.Window(
             title=title,
-            size=size,
+            size=render_size if render_size else size,
             borderless=True,
             always_on_top=True,
-            fullscreen=fullscreen,
         )
         self._running: bool = False
         self.window_surf: pg.Surface = self.window.get_surface()
         self.screen: pg.Surface = pg.Surface(size=size)
         self.window.set_icon(pg.image.load(icon).convert_alpha())
         self.draggable: DraggableWindow = DraggableWindow(window=self.window)
-        self.fullscreen: bool = fullscreen
+        self.render_size: tuple[int, int] | None = render_size
         self.fps: int = fps
         self.clock: pg.time.Clock = pg.time.Clock()
         self.dt: float = 0.0
@@ -64,8 +63,8 @@ class World:
         Didn't respect the aspect ratio, to use only if the display ratio is the same
         as the default window size one.
         """
-        if self.fullscreen:
-            return pg.transform.scale(self.screen, self.window_surf.get_size())
+        if self.render_size:
+            return pg.transform.scale(self.screen, self.render_size)
 
         return self.screen
 
@@ -77,8 +76,7 @@ class World:
             ):
                 self.stop()
 
-            if not self.fullscreen:
-                self.draggable.process_event(event=event)
+            self.draggable.process_event(event=event)
 
     def get_dt(self) -> None:
         """Calculate the delta time."""
