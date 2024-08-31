@@ -78,4 +78,4 @@ export DOGGO_7_9_SCREEN=1
 * Code source under [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html)
 * Assets:
   * All assets under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-  * Excepting dog sprites in `src/doggo/assets/dogs` from **Pixel Dogs** by [Benvictus](https://benvictus.itch.io/pixel-dogs)
+  * Excepting dog sprites in `src/doggo/assets/dogs` from [Pixel Dogs](https://benvictus.itch.io/pixel-dogs) by [Benvictus](https://benvictus.itch.io)
