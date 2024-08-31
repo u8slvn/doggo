@@ -10,7 +10,7 @@ from doggo.prepare import build_dog
 from doggo.prepare import build_landscape
 
 
-def test_build_dog():
+def test_build_dog(pygame_test):
     dog = build_dog()
 
     assert isinstance(dog, Dog)
@@ -19,7 +19,7 @@ def test_build_dog():
     assert isinstance(dog.body, Body)
 
 
-def test_build_landscape():
+def test_build_landscape(pygame_test):
     landscape = build_landscape()
 
     assert isinstance(landscape, Landscape)

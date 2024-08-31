@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#readme" align="center">
-      <img alt="Until Zero - タイマー | logo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/assets/splash.png">
+      <img alt="doggo logo" src="https://raw.githubusercontent.com/u8slvn/doggo/main/assets/splash.png">
   </a>
 </p>
 <p align="center">

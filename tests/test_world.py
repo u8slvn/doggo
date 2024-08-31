@@ -10,7 +10,8 @@ from doggo.world import World
 
 
 @pytest.fixture
-def create_world():
+def create_world(mocker):
+    mocker.patch("doggo.world.pg.init")
     world = None
 
     def _(render_size=None):

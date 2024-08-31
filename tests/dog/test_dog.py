@@ -7,7 +7,7 @@ from doggo.dog.brain import Direction
 from doggo.prepare import build_dog
 
 
-def test_dog_can_move_right():
+def test_dog_can_move_right(pygame_test):
     dog = build_dog()
     dog.brain.change_state(StateID.WALK)  # We need a state that can move.
     dog.brain.current_state.direction = Direction.RIGHT
@@ -18,7 +18,7 @@ def test_dog_can_move_right():
     assert dog.rect.x > start_x_pos
 
 
-def test_dog_can_move_left():
+def test_dog_can_move_left(pygame_test):
     dog = build_dog()
     dog.brain.change_state(StateID.WALK)  # We need a state that can move.
     dog.brain.current_state.direction = Direction.LEFT
@@ -37,7 +37,7 @@ def test_dog_can_move_left():
     ],
 )
 def test_dog_clone_appeared_when_hitting_a_world_boundary(
-    direction, start_pos, x_signe
+    pygame_test, direction, start_pos, x_signe
 ):
     dog = build_dog()
     dog.brain.change_state(StateID.WALK)  # We need a state that can move.
@@ -61,7 +61,9 @@ def test_dog_clone_appeared_when_hitting_a_world_boundary(
         (Direction.LEFT, lambda dog: 0),
     ],
 )
-def test_dog_clone_disappeared_when_not_hitting_a_world_boundary(direction, start_pos):
+def test_dog_clone_disappeared_when_not_hitting_a_world_boundary(
+    pygame_test, direction, start_pos
+):
     dog = build_dog()
     dog.brain.change_state(StateID.WALK)
     dog.brain.current_state.direction = direction
@@ -83,7 +85,7 @@ def test_dog_clone_disappeared_when_not_hitting_a_world_boundary(direction, star
     assert dog.clone.visible is False
 
 
-def test_dog_draw_on_screen(pg_screen_mock):
+def test_dog_draw_on_screen(pygame_test, pg_screen_mock):
     dog = build_dog()
 
     dog.draw(screen=pg_screen_mock)
@@ -91,7 +93,7 @@ def test_dog_draw_on_screen(pg_screen_mock):
     pg_screen_mock.blit.assert_called_once_with(dog.image, dest=dog.rect)
 
 
-def test_dog_draw_on_screen_with_its_clone(mocker, pg_screen_mock):
+def test_dog_draw_on_screen_with_its_clone(mocker, pygame_test, pg_screen_mock):
     dog = build_dog()
     dog.clone.visible = True
 
@@ -104,7 +106,7 @@ def test_dog_draw_on_screen_with_its_clone(mocker, pg_screen_mock):
     ]
 
 
-def test_dog_brain_info_are_accessible_from_dog():
+def test_dog_brain_info_are_accessible_from_dog(pygame_test):
     dog = build_dog()
 
     assert isinstance(dog.current_state, StateID)

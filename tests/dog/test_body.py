@@ -19,7 +19,7 @@ def test_fur_random_returns_a_fur_color():
     assert isinstance(fur, Fur)
 
 
-def test_body_get_image_returns_surface_cyclically():
+def test_body_get_image_returns_surface_cyclically(pygame_test):
     body = Body(
         fur=Fur.random(),
         sprite_size=config.SPRITE_SIZE,
@@ -45,7 +45,7 @@ def test_body_get_image_returns_surface_cyclically():
     assert next_cycle_image is frames[0]
 
 
-def test_body_return_cycle_images_while_brain_state_is_the_same():
+def test_body_return_cycle_images_while_brain_state_is_the_same(pygame_test):
     body = Body(
         fur=Fur.random(),
         sprite_size=config.SPRITE_SIZE,
@@ -74,7 +74,7 @@ def test_body_return_cycle_images_while_brain_state_is_the_same():
     assert fourth_image is body.images[StateID.IDLE][Direction.RIGHT][1]
 
 
-def test_sprite_sheet_get_sprite_returns_a_sprite():
+def test_sprite_sheet_get_sprite_returns_a_sprite(pygame_test):
     sprite_sheet_path = ASSETS_PATH.joinpath("dogs/00.png")
     sprite_sheet = SpriteSheet(path=sprite_sheet_path, columns=8, rows=9)
 
@@ -85,7 +85,7 @@ def test_sprite_sheet_get_sprite_returns_a_sprite():
     assert sprite.get_height() == 48
 
 
-def test_sprite_sheet_get_sprite_fails_if_loc_is_outside_of_the_sheet():
+def test_sprite_sheet_get_sprite_fails_if_loc_is_outside_of_the_sheet(pygame_test):
     sprite_sheet_path = ASSETS_PATH.joinpath("dogs/00.png")
     sprite_sheet = SpriteSheet(path=sprite_sheet_path, columns=8, rows=9)
 

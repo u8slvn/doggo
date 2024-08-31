@@ -4,9 +4,9 @@ import pygame as pg
 import pytest
 
 
-@pytest.fixture(scope="session", autouse=True)
-def pygame():
-    """Start and stop pygame instance for all tests."""
+@pytest.fixture(scope="session")
+def pygame_test():
+    """Start and stop pygame instance for a test."""
 
     pg.init()
     pg.display.set_mode((1, 1))
