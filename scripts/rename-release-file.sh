@@ -16,7 +16,7 @@ case "$OS_NAME" in
         if [ "$ARCH" = "64bit" ]; then
             ARCH_NAME="x64"
         else
-            ARCH_NAME="x32"
+            ARCH_NAME="x86"
         fi
         FILE_NAME="doggo-${VERSION}-windows-${ARCH_NAME}.exe"
         mv ./dist/Doggo.exe "./dist/$FILE_NAME"
