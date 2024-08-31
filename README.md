@@ -60,6 +60,19 @@ The script will generate a `dist` folder at the root of the project with the exe
 
 For now, only one biome (mountain) is available. The feature to pick a biome randomly at start is already implemented, so I wish to add more in the future. Otherwise, I don't plan to add more features, like weathers or interactions, but the project is open to contributions. Just open a discussion before to make sure your idea fits the project.
 
+
+## 7.9" screen option
+
+**Doggo** use a weird ratio of 16:5, which is not common but fits well on a 7.9" screen. If you want to use it on a 7.9 inch screen, activating the following environment variable makes the window fit the 1280x400 resolution of 7.9" screens.
+
+```bash
+export DOGGO_7_9_SCREEN=1
+```
+
+<p align="center">
+    <img alt="doggo demo 7.9 screen" src="https://raw.githubusercontent.com/u8slvn/doggo/main/assets/demo-7.9-screen.jpeg">
+</p>
+
 ## Licenses
 
 * Code source under [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html)
